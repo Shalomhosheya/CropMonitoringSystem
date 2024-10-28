@@ -104,6 +104,26 @@
     color: #f5a623;
     margin-top: 10px;
 }
+.header-container {
+    position: relative; /* To position children absolutely if needed */
+    text-align: center; /* Center text below the icon */
+}
+#accountIcon {
+    width: 50px; /* Set a default width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure it does not exceed its parent container */
+    position: absolute; /* Allow positioning */
+    top: 20px; /* Distance from the top of the container */
+    right: 20px; /* Distance from the right of the container */
+}
+#accountname {
+    margin-top: 70px; /* Space below the icon */
+    font-size: 1.2em; /* Adjust font size */
+    color: #333; /* Text color */
+    position: absolute; /* Allow positioning */
+    top: 5px; /* Position it below the icon */
+    right: 11px; /* Align it with the icon */
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -122,5 +142,27 @@
 
     .content {
         margin-left: 0; /* Full width for content on small screens */
+    }
+    #accountIcon {
+        width: 40px; /* Smaller size on smaller screens */
+        top: 15px; /* Adjust top position */
+        right: 15px; /* Adjust right position */
+    }
+
+    #accountname {
+        font-size: 1em; /* Adjust font size */
+        top: 5px; /* Adjust top position based on icon size */
+    }
+}
+@media (max-width: 480px) {
+    #accountIcon {
+        width: 30px; /* Even smaller size on mobile devices */
+        top: 10px; /* Adjust top position */
+        right: 10px; /* Adjust right position */
+    }
+
+    #accountname {
+        font-size: 0.8em; /* Adjust font size */
+        top: -24px; /* Adjust top position based on icon size */
     }
 }
