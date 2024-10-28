@@ -28,3 +28,9 @@ event.preventDefault()
         }
     });
 })
+document.getElementById("signInBTN").addEventListener('click',function (){
+    alert("done");
+    event.preventDefault()
+    window.location.href="../pages/dashBoard.html"//only the html opens not the styles
+
+})
