@@ -23,3 +23,6 @@ hamburger.addEventListener('click', () => {
     // Toggle the open state
     isOpen = !isOpen;
 });
+document.getElementById('logoutBtn').addEventListener('click',function (){
+    window.location.href="../index.html"
+})
