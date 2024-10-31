@@ -75,11 +75,30 @@
                 <!-- Image Preview -->
                 <img id="previewImage1" class="rounded float-start mb-4" style="max-width: 45%;" alt="Preview Image 1">
                 <img id="previewImage2" class="rounded float-end mb-4" style="max-width: 45%;" alt="Preview Image 2">
-              </div>
 
-          </div>
+              </div>
+              <button type="button" class="btn btn-danger" id="addBTN">Add</button>
+             <br>
+              <button type="button" class="btn btn-danger" id="udateBtn">Update</button>
+              <br>
+              <button type="button" class="btn btn-danger" id="delete">Delete</button>
+
+            </div>
+          <br>
+          <table id="fieldsTable" class="table table-dark table-striped-columns">
+            <thead>
+            <tr>
+              <th scope="col">Field Name</th>
+              <th scope="col">Field Location</th>
+              <th scope="col">Size of the Land</th>
+              <th scope="col">Staff</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
         </div>
-        <button type="button" class="btn btn-danger" id="addBTN">Add</button>
       </div>
     </div>
   </main>
@@ -94,7 +113,7 @@
 </div>
 <script src="../controller/dashBoardController.js"></script>
 <script src="../controller/fieldController.js"></script>
-<script src="controller/js/jquery-1.11.3.min.js"></script>
+<script src="../controller/js/jquery-1.11.3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
