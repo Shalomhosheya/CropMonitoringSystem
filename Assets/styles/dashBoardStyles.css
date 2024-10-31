@@ -124,7 +124,10 @@
     top: 5px; /* Position it below the icon */
     right: 11px; /* Align it with the icon */
 }
-
+.clickable-field-id:hover{
+    background-color: mediumspringgreen;
+    cursor: pointer;
+}
 /* Responsive design */
 @media (max-width: 768px) {
     .hamburger {

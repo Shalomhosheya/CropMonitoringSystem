@@ -35,6 +35,9 @@
     <div class="container-fluid">
       <div class="card mx-auto p-4" style="max-width: 90%; min-height: 80vh;">
         <div class="card-body">
+          Field ID: <label id="lbl1"></label>
+          <br>
+          <br>
           <!-- Field Name -->
           <div class="input-group mb-4">
             <span class="input-group-text" id="addon-wrapping">Field Name</span>
@@ -72,6 +75,7 @@
                   <input type="file" class="form-control" id="inputGroupFile03">
                 </div>
 
+
                 <!-- Image Preview -->
                 <img id="previewImage1" class="rounded float-start mb-4" style="max-width: 45%;" alt="Preview Image 1">
                 <img id="previewImage2" class="rounded float-end mb-4" style="max-width: 45%;" alt="Preview Image 2">
@@ -85,9 +89,10 @@
 
             </div>
           <br>
-          <table id="fieldsTable" class="table table-dark table-striped-columns">
+          <table id="fieldsTable" class="table table-dark ">
             <thead>
             <tr>
+              <th scope="col">Field ID</th>
               <th scope="col">Field Name</th>
               <th scope="col">Field Location</th>
               <th scope="col">Size of the Land</th>
