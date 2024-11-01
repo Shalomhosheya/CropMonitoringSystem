@@ -16,7 +16,30 @@ document.getElementById('inputGroupFile02').addEventListener('change', function(
 document.getElementById('inputGroupFile03').addEventListener('change', function(event) {
     showPreview(event, 'previewImage2');
 });
+document.getElementById('deleteBtn').addEventListener('click', function () {
+    console.log("Delete button clicked");  // Check if this log appears in the console
 
+    var fieldID = document.getElementById("lbl1").textContent.trim();
+    if (!fieldID) {
+        alert("Please select a field to delete.");
+        return;
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(fieldID),
+        type: "DELETE",
+        contentType: 'application/json',
+        success: function (response) {
+            console.log("Field Successfully Deleted", response);
+            alert("Field Successfully Deleted");
+            fetchAndDisplayFields();
+        },
+        error: function (xhr, status, error) {
+            console.log("Error deleting field:", xhr, status, error);
+            alert("Field deletion failed");
+        }
+    });
+});
 document.getElementById('addBTN').addEventListener('click', function () {
     var fieldName = document.getElementById('fieldName').value;
     var fieldloc = document.getElementById('fieldLocation').value;
@@ -64,6 +87,7 @@ function fetchAndDisplayFields() {
     if (storedFields) {
         populateTable(storedFields);
     }
+
 
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field",
@@ -129,31 +153,5 @@ function populateTable(data) {
 
 // Call this function initially to load existing data on page load
 fetchAndDisplayFields();
-
-document.getElementById('delete').addEventListener('click',()=>{
-    const fieldID = document.getElementById("lbl1");
-
-    $.ajax({
-        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/delete",
-        type: "DELETE",
-        data: JSON.stringify({
-           fieldID:fieldID
-        }),
-        contentType:'application/json',
-        success: function (response) {
-            console.log("Field Successfully Deleted "+response);
-            alert("Fields Successfully Deleted");
-
-            // Call function to load and display the updated list of fields
-            fetchAndDisplayFields();
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr);
-            console.log(status);
-            console.log(error);
-            alert("Field deletion failed");
-        }
-    });
-})
 
 
