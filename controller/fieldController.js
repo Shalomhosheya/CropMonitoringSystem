@@ -16,31 +16,9 @@ document.getElementById('inputGroupFile02').addEventListener('change', function(
 document.getElementById('inputGroupFile03').addEventListener('change', function(event) {
     showPreview(event, 'previewImage2');
 });
-document.getElementById('deleteBtn').addEventListener('click', function () {
-    console.log("Delete button clicked");  // Check if this log appears in the console
-
-    var fieldID = document.getElementById("lbl1").textContent.trim();
-    if (!fieldID) {
-        alert("Please select a field to delete.");
-        return;
-    }
-
-    $.ajax({
-        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(fieldID),
-        type: "DELETE",
-        contentType: 'application/json',
-        success: function (response) {
-            console.log("Field Successfully Deleted", response);
-            alert("Field Successfully Deleted");
-            fetchAndDisplayFields();
-        },
-        error: function (xhr, status, error) {
-            console.log("Error deleting field:", xhr, status, error);
-            alert("Field deletion failed");
-        }
-    });
-});
+resettext();
 document.getElementById('addBTN').addEventListener('click', function () {
+    console.log("click");
     var fieldName = document.getElementById('fieldName').value;
     var fieldloc = document.getElementById('fieldLocation').value;
     var fieldsize = document.getElementById('sizefield').value;
@@ -65,7 +43,7 @@ document.getElementById('addBTN').addEventListener('click', function () {
         success: function () {
             console.log("Field Successfully created");
             alert("Fields Successfully created");
-
+            resettext();
             // Call function to load and display the updated list of fields
             fetchAndDisplayFields();
         },
@@ -74,6 +52,65 @@ document.getElementById('addBTN').addEventListener('click', function () {
             console.log(status);
             console.log(error);
             alert("Field creation failed");
+        }
+    });
+});
+document.getElementById('updateBtn').addEventListener('click',function (){
+    console.log("updateBtn clicked");
+    var fieldName = document.getElementById('fieldName').value;
+    var fieldloc = document.getElementById('fieldLocation').value;
+    var fieldsize = document.getElementById('sizefield').value;
+    var fieldstaff = document.getElementById('staff').value;
+    var fieldPic1 = document.getElementById('inputGroupFile02').files[0];
+    var fieldPic2 = document.getElementById('inputGroupFile03').files[0];
+
+    var label = document.getElementById('lbl1').textContent;
+
+    $.ajax({
+        url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/field/"+encodeURIComponent(label),
+        type:"PUT",
+        data: JSON.stringify({
+            fieldName:fieldName,
+            fieldloc:fieldloc,
+            fieldsize:fieldsize,
+            fieldstaff:fieldstaff,
+            fieldPic1:fieldPic1,
+            fieldPic2:fieldPic2
+        }),
+        contentType: "application/json", // Required for FormData
+        success: function(response) {
+            console.log('Success:', response);
+            alert("Update successfull")
+            fetchAndDisplayFields()
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', status, error);
+            alert("update Failed")
+        }
+    })
+})
+document.getElementById('deleteBtn').addEventListener('click', function () {
+    console.log("Delete button clicked");  // Check if this log appears in the console
+
+    var fieldID = document.getElementById("lbl1").textContent.trim();
+    if (!fieldID) {
+        alert("Please select a field to delete.");
+        return;
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(fieldID),
+        type: "DELETE",
+        contentType: 'application/json',
+        success: function (response) {
+            console.log("Field Successfully Deleted", response);
+            alert("Field Successfully Deleted");
+            fetchAndDisplayFields();
+            resettext()
+        },
+        error: function (xhr, status, error) {
+            console.log("Error deleting field:", xhr, status, error);
+            alert("Field deletion failed");
         }
     });
 });
@@ -150,8 +187,30 @@ function populateTable(data) {
         tableBody.appendChild(row);
     });
 }
+function resettext() {
+    document.getElementById('fieldName').value = "";
+    document.getElementById('fieldLocation').value = "";
+    document.getElementById('sizefield').value = "";
+    document.getElementById('staff').value = "";
+    document.getElementById('inputGroupFile02').value = ""; // Clear file input
+    document.getElementById('inputGroupFile03').value = ""; // Clear file input
+    document.getElementById('lbl1').textContent = ""; // Clear label
+
+    // Clear image previews
+    document.getElementById('previewImage1').src = "";
+    document.getElementById('previewImage2').src = "";
+
+    // Log to confirm reset action
+    console.log("Form fields have been reset.");
+}
+
+document.getElementById('resetBTN').addEventListener('click', function () {
+   resettext() // Get the elements directly and set their values to empty strings
+});
 
 // Call this function initially to load existing data on page load
 fetchAndDisplayFields();
+
+
 
 
