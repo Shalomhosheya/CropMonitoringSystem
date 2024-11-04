@@ -9,7 +9,7 @@ function showPreview(event, previewId) {
 }
 
 // Event listeners for the file inputs
-document.getElementById('inputGroupFile02').addEventListener('change', function(event) {
+document.getElementById('inputGroupFile04').addEventListener('change', function(event) {
     showPreview(event, 'previewImage1');
 });
 
