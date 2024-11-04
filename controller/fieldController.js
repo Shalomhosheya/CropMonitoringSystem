@@ -55,40 +55,58 @@ document.getElementById('addBTN').addEventListener('click', function () {
         }
     });
 });
-document.getElementById('updateBtn').addEventListener('click',function (){
+document.getElementById('updateBtn').addEventListener('click', function () {
     console.log("updateBtn clicked");
+
+    // Get field values
     var fieldName = document.getElementById('fieldName').value;
     var fieldloc = document.getElementById('fieldLocation').value;
     var fieldsize = document.getElementById('sizefield').value;
     var fieldstaff = document.getElementById('staff').value;
     var fieldPic1 = document.getElementById('inputGroupFile02').files[0];
     var fieldPic2 = document.getElementById('inputGroupFile03').files[0];
-
     var label = document.getElementById('lbl1').textContent;
 
+    console.log(fieldloc, fieldsize, fieldstaff);
+    // Create FormData object to handle files and add non-empty fields
+/*
+    var formData = new FormData();
+    if (fieldName) formData.append("fieldName", fieldName);
+    if (fieldloc) formData.append("fieldloc", fieldloc);
+    if (fieldsize) formData.append("fieldsize", fieldsize);
+    if (fieldstaff) formData.append("fieldstaff", fieldstaff);
+    if (fieldPic1) formData.append("fieldPic1", fieldPic1);
+    if (fieldPic2) formData.append("fieldPic2", fieldPic2);
+*/
+
+    // Send AJAX request with FormData
+    var data = {
+        fieldName: fieldName,
+        fieldloc: fieldloc,
+        fieldsize: fieldsize,
+        fieldstaff: fieldstaff,
+        // fieldPic1:fieldPic1,
+        // fieldPic2:fieldPic2
+    };
+
     $.ajax({
-        url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/field/"+encodeURIComponent(label),
-        type:"PUT",
-        data: JSON.stringify({
-            fieldName:fieldName,
-            fieldloc:fieldloc,
-            fieldsize:fieldsize,
-            fieldstaff:fieldstaff,
-            fieldPic1:fieldPic1,
-            fieldPic2:fieldPic2
-        }),
-        contentType: "application/json", // Required for FormData
-        success: function(response) {
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(label),
+        type: "PUT",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function (response) {
             console.log('Success:', response);
-            alert("Update successfull")
-            fetchAndDisplayFields()
+            alert("Update successful");
+            fetchAndDisplayFields();
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('AJAX error:', status, error);
-            alert("update Failed")
+            alert("Update failed");
         }
-    })
-})
+    });
+
+});
+
 document.getElementById('deleteBtn').addEventListener('click', function () {
     console.log("Delete button clicked");  // Check if this log appears in the console
 
