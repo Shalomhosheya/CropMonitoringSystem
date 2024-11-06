@@ -30,128 +30,7 @@
     <!-- Main Content -->
     <main class="content">
         <h2 class="text-center">Staff Input</h2>
-        <br>
-        <div class="container-fluid">
-            Staff ID: <label id="lbl2"></label>
-            <br>
-            <br>
-            <div class="input-group mb-4">
-                <span class="input-group-text" id="addon-wrapping1">First Name</span>
-                <input id="staffName" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-            </div>
-            <div class="input-group mb-4">
-                <span class="input-group-text" id="addon-wrapping2">Last Name</span>
-                <input id="staffsecond" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-            </div>
-            <div class="input-group mb-4">
-                <span class="input-group-text" id="addon-wrapping3">Designitation</span>
-                <input id="designation" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="disabledSelect" class="form-label">Gender</label>
-            <select id="disabledSelect" class="form-select">
-                <option value="" disabled selected>Select</option>
-            </select>
-        </div>
 
-        <form>
-            <div class="mb-3">
-                <label for="dateInput" class="form-label">Join Date</label>
-                <input type="date" class="form-control" id="dateInput" name="date">
-            </div>
-        </form>
-         <form>
-            <div class="mb-3">
-                <label for="dateInput" class="form-label">Date of Birth</label>
-                <input type="date" class="form-control" id="dateInput2" name="date">
-            </div>
-        </form>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping4">Address line 1</span>
-            <input id="addresstext1" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping5">Address line 2</span>
-            <input id="addresstext2" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping6">Address line 3</span>
-            <input id="addresstext3" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping7">Address line 4</span>
-            <input id="addresstext4" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping8">Address line 5</span>
-            <input id="addresstext5" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping9">Contact Number:</span>
-            <input id="contactNum" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-
-
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        </div>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping11">Role:</span>
-            <input id="role" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping12">Field:</span>
-            <input id="field" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>
-        <!--<div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping13">Vehicle:</span>
-            <input id="vehicle" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-        </div>-->
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <button type="button" class="btn btn-danger" id="addBtn">Add</button>
-            <button type="button" class="btn btn-warning">Update</button>
-            <button type="button" class="btn btn-success">Reset</button>
-            <button type="button" class="btn btn-info">Delete</button>
-        </div>
-        <br>
-        <br>
-        <div>
-            <table class="table table-dark"id="staffTable">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Designitation</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Join Date</th>
-                    <th scope="col">Date of Birth</th>
-                    <th scope="col">Address Line 1</th>
-                    <th scope="col">Address Line 2</th>
-                    <th scope="col">Address Line 3</th>
-                    <th scope="col">Address Line 4</th>
-                    <th scope="col">Address Line 5</th>
-                    <th scope="col">Contact Number</th>
-                    <th scope="col">Email Address</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Field</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
     </main>
 
     </section>
@@ -159,7 +38,7 @@
     </main>
 </div>
 <script src="../controller/dashBoardController.js"></script>
-<script src="../controller/staffController.js"></script>
+<!--<script src="../controller/staffController.js"></script>-->
 <script src="../controller/fieldController.js"></script>
 <script src="../controller/js/jquery-1.11.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

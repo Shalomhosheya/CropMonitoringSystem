@@ -9,52 +9,72 @@ function showPreview(event, previewId) {
 }
 
 // Event listeners for the file inputs
-document.getElementById('inputGroupFile04').addEventListener('change', function(event) {
+document.getElementById('inputGroupFile04')?.addEventListener('change', function(event) {
     showPreview(event, 'previewImage1');
 });
 
-document.getElementById('inputGroupFile03').addEventListener('change', function(event) {
+document.getElementById('inputGroupFile03')?.addEventListener('change', function(event) {
     showPreview(event, 'previewImage2');
 });
-resettext();
-document.getElementById('addBTN').addEventListener('click', function () {
-    console.log("click");
-    var fieldName = document.getElementById('fieldName').value;
-    var fieldloc = document.getElementById('fieldLocation').value;
-    var fieldsize = document.getElementById('sizefield').value;
-    var fieldstaff = document.getElementById('staff').value;
-    var fieldPic1 = document.getElementById('inputGroupFile02').files[0];
-    var fieldPic2 = document.getElementById('inputGroupFile03').files[0];
 
+resettext();
+
+document.getElementById('addBTN')?.addEventListener('click', function () {
+    console.log("Click event triggered");
+
+    // Get field values and file inputs
+    var fieldName = document.getElementById('fieldName')?.value;
+    var fieldloc = document.getElementById('fieldLocation')?.value;
+    var fieldsize = document.getElementById('sizefield')?.value;
+    var fieldstaff = document.getElementById('staff')?.value;
+    var fieldPic1 = document.getElementById('inputGroupFile04')?.files[0] || null;
+    var fieldPic2 = document.getElementById('inputGroupFile03')?.files[0] || null;
+
+    // Log files to check if they're being captured
+    console.log("fieldPic1:", fieldPic1);
+    console.log("fieldPic2:", fieldPic2);
+
+    // Add form data, including files
     var formData = new FormData();
     formData.append('fieldName', fieldName);
     formData.append('fieldloc', fieldloc);
     formData.append('fieldsize', fieldsize);
     formData.append('fieldstaff', fieldstaff);
-    formData.append('fieldPic1', fieldPic1);
-    formData.append('fieldPic2', fieldPic2);
 
+    // Only append files if they exist
+    if (fieldPic1) {
+        formData.append('fieldPic1', fieldPic1);
+    } else {
+        console.warn("fieldPic1 is not selected.");
+    }
+
+    if (fieldPic2) {
+        formData.append('fieldPic2', fieldPic2);
+    } else {
+        console.warn("fieldPic2 is not selected.");
+    }
+
+    // AJAX call
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/save",
         type: "POST",
         data: formData,
-        contentType: false, // Required for FormData
-        processData: false, // Required for FormData
+        contentType: false,
+        processData: false,
         success: function () {
-            console.log("Field Successfully created");
-            alert("Fields Successfully created");
+            console.log("Field successfully created");
+            alert("Fields successfully created");
             resettext();
-            // Call function to load and display the updated list of fields
             fetchAndDisplayFields();
         },
         error: function (xhr, status, error) {
-            console.log(xhr);
-            console.log(status);
-            console.log(error);
+            console.log("Error details:", xhr, status, error);
             alert("Field creation failed");
         }
     });
 });
+
+
 document.getElementById('updateBtn').addEventListener('click', function () {
     console.log("updateBtn clicked");
 
@@ -63,13 +83,12 @@ document.getElementById('updateBtn').addEventListener('click', function () {
     var fieldloc = document.getElementById('fieldLocation').value;
     var fieldsize = document.getElementById('sizefield').value;
     var fieldstaff = document.getElementById('staff').value;
-    var fieldPic1 = document.getElementById('inputGroupFile02').files[0];
+    var fieldPic1 = document.getElementById('inputGroupFile04').files[0];
     var fieldPic2 = document.getElementById('inputGroupFile03').files[0];
     var label = document.getElementById('lbl1').textContent;
 
     console.log(fieldloc, fieldsize, fieldstaff);
     // Create FormData object to handle files and add non-empty fields
-/*
     var formData = new FormData();
     if (fieldName) formData.append("fieldName", fieldName);
     if (fieldloc) formData.append("fieldloc", fieldloc);
@@ -77,7 +96,6 @@ document.getElementById('updateBtn').addEventListener('click', function () {
     if (fieldstaff) formData.append("fieldstaff", fieldstaff);
     if (fieldPic1) formData.append("fieldPic1", fieldPic1);
     if (fieldPic2) formData.append("fieldPic2", fieldPic2);
-*/
 
     // Send AJAX request with FormData
     var data = {
@@ -85,8 +103,8 @@ document.getElementById('updateBtn').addEventListener('click', function () {
         fieldloc: fieldloc,
         fieldsize: fieldsize,
         fieldstaff: fieldstaff,
-        // fieldPic1:fieldPic1,
-        // fieldPic2:fieldPic2
+        fieldPic1:fieldPic1,
+        fieldPic2:fieldPic2
     };
 
     $.ajax({
@@ -170,6 +188,7 @@ function fetchAndDisplayFields() {
     });
 }
 
+
 function populateTable(data) {
     // Fetch the input fields
     var fieldName = document.getElementById('fieldName');
@@ -210,8 +229,6 @@ function resettext() {
     document.getElementById('fieldLocation').value = "";
     document.getElementById('sizefield').value = "";
     document.getElementById('staff').value = "";
-    document.getElementById('inputGroupFile02').value = ""; // Clear file input
-    document.getElementById('inputGroupFile03').value = ""; // Clear file input
     document.getElementById('lbl1').textContent = ""; // Clear label
 
     // Clear image previews
