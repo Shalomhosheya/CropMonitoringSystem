@@ -1,3 +1,32 @@
+function populateTablestaff(staffData) {
+    var firstname=document.getElementById('staffName').value;
+    var secondName=document.getElementById('staffsecond').value;
+    var designitation=document.getElementById('designation').value;
+    var gender=document.getElementById('disabledSelect').value;
+    var join_Date=document.getElementById('dateInput').value;
+    var dob=document.getElementById('dateInput2').value;
+    var address1=document.getElementById('addresstext1').value;
+    var address2=document.getElementById('addresstext2').value;
+    var address3=document.getElementById('addresstext3').value;
+    var address4=document.getElementById('addresstext4').value;
+    var address5=document.getElementById('addresstext5').value;
+    var contact_num=document.getElementById('contactNum').value;
+    var email=document.getElementById('exampleInputEmail1').value;
+    var role=document.getElementById('role').value;
+    var field=document.getElementById('field').value;
+
+    var staffIdlbl=document.getElementById('lbl2').value;
+
+}
+
+function fetchDataAndDisplay() {
+    const staffData = JSON.parse(localStorage.getItem("staffData"))
+    if (staffData) {
+        populateTablestaff(staffData)
+    }
+
+}
+
 document.getElementById('addBtn').addEventListener('click',function (){
     console.log("add button click");
     var firstname=document.getElementById('staffName').value;
@@ -15,6 +44,7 @@ document.getElementById('addBtn').addEventListener('click',function (){
     var email=document.getElementById('exampleInputEmail1').value;
     var role=document.getElementById('role').value;
     var field=document.getElementById('field').value;
+
     var staffIdlbl=document.getElementById('lbl2').value;
 
     console.log(firstname, secondName, designitation, gender, join_Date, dob, address1, address2, address3, address4, address5, contact_num, email, role, field);
@@ -46,6 +76,7 @@ document.getElementById('addBtn').addEventListener('click',function (){
         processData:false,
         success:function (){
             alert("staff member added!")
+            fetchDataAndDisplay();
         },
         error:function (xhr,status,error){
             console.log(xhr);
@@ -71,3 +102,54 @@ document.addEventListener("DOMContentLoaded", function () {
         genderSelect.appendChild(option);
     });
 });
+document.getElementById('updateBtn').addEventListener('click',function (){
+    var firstname=document.getElementById('staffName').value;
+    var secondName=document.getElementById('staffsecond').value;
+    var designitation=document.getElementById('designation').value;
+    var gender=document.getElementById('disabledSelect').value;
+    var join_Date=document.getElementById('dateInput').value;
+    var dob=document.getElementById('dateInput2').value;
+    var address1=document.getElementById('addresstext1').value;
+    var address2=document.getElementById('addresstext2').value;
+    var address3=document.getElementById('addresstext3').value;
+    var address4=document.getElementById('addresstext4').value;
+    var address5=document.getElementById('addresstext5').value;
+    var contact_num=document.getElementById('contactNum').value;
+    var email=document.getElementById('exampleInputEmail1').value;
+    var role=document.getElementById('role').value;
+    var field=document.getElementById('field').value;
+
+    var data = {
+        firstname:firstname,
+        secondName:secondName,
+        designitation:designitation,
+        gender:gender,
+        join_Date:join_Date,
+        dob:dob,
+        address1:address1,
+        address2:address2,
+        address3:address3,
+        address4:address4,
+        address5:address5,
+        contact_num:contact_num,
+        email:email,
+        role:role,
+        field:field
+    }
+
+    $.ajax({
+        url:"",
+        type:"POST",
+        data:JSON.stringify(data),
+        contentType:"application/json",
+        success:function (){
+            alert("Update success")
+        },
+        error:function (xhr,status,error){
+            console.log(error);
+            console.log(status);
+            console.log(error);
+            alert("update fail")
+        }
+    })
+})
