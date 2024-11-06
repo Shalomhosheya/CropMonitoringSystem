@@ -79,6 +79,11 @@ button:hover{
 	color: green;
 	transform: scale(.6);
 }
+.clickableField:hover{
+	background-color: mediumspringgreen;
+	cursor: pointer;
+}
+
 
 #chk:checked ~ .login{
 	transform: translateY(-500px);

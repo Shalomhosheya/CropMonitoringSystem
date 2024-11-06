@@ -1,32 +1,71 @@
 function populateTablestaff(staffData) {
+    var firstname = document.getElementById('staffName');
+    var secondName = document.getElementById('staffsecond');
+    var designitation = document.getElementById('designation');
+    var gender = document.getElementById('disabledSelect');
+    var join_Date = document.getElementById('dateInput');
+    var dob = document.getElementById('dateInput2');
+    var address1 = document.getElementById('addresstext1');
+    var address2 = document.getElementById('addresstext2');
+    var address3 = document.getElementById('addresstext3');
+    var address4 = document.getElementById('addresstext4');
+    var address5 = document.getElementById('addresstext5');
+    var contact_num = document.getElementById('contactNum');
+    var email = document.getElementById('exampleInputEmail1');
+    var role = document.getElementById('role');
+    var field1 = document.getElementById('field');
+
+    var label = document.getElementById('lbl2');  // Fixing the label declaration
+
     const table = document.querySelector('#staffTable tbody');
-    table.innerHTML = ""; // Clear existing data
+    table.innerHTML = "";
 
     staffData.forEach((field, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
             <tr>
-                <th data-field-id="${field.staffID}">${field.staffID}</th>
-                <td>${field.firstName}</td>
-                <td>${field.lastName}</td>
-                <td>${field.designation}</td>
-                <td>${field.gender}</td>
-                <td>${field.joinDate}</td>
-                <td>${field.DOB}</td>
-                <td>${field.address1}</td>
-                <td>${field.address2}</td>
-                <td>${field.address3}</td>
-                <td>${field.address4}</td>
-                <td>${field.address5}</td>
-                <td>${field.contactNum}</td>
-                <td>${field.email}</td>
-                <td>${field.role}</td>
-                <td>${field.field}</td>
+                <th data-field-id="${field.staffID}" class="clickableField">${field.staffID}</th>
+                <td class="clickableField">${field.firstName}</td>
+                <td class="clickableField">${field.lastName}</td>
+                <td class="clickableField">${field.designation}</td>
+                <td class="clickableField">${field.gender}</td>
+                <td class="clickableField">${field.joinDate}</td>
+                <td class="clickableField">${field.DOB}</td>
+                <td class="clickableField">${field.address1}</td>
+                <td class="clickableField">${field.address2}</td>
+                <td class="clickableField">${field.address3}</td>
+                <td class="clickableField">${field.address4}</td>
+                <td class="clickableField">${field.address5}</td>
+                <td class="clickableField">${field.contactNum}</td>
+                <td class="clickableField">${field.email}</td>
+                <td class="clickableField">${field.role}</td>
+                <td class="clickableField">${field.field}</td>
             </tr>
         `;
+
+        row.querySelector(".clickableField").addEventListener('click', function () {
+            if (label) label.textContent = field.staffID;
+            firstname.value = field.firstName;
+            secondName.value = field.lastName;
+            designitation.value = field.designation;
+            gender.value = field.gender;
+            join_Date.value = field.joinDate;
+            dob.value = field.DOB;
+            address1.value = field.address1;
+            address2.value = field.address2;
+            address3.value = field.address3;
+            address4.value = field.address4;
+            address5.value = field.address5;
+            contact_num.value = field.contactNum;
+            email.value = field.email;
+            role.value = field.role;
+            field1.value = field.field;
+        });
+
         table.appendChild(row);
     });
 }
+
 
 function fetchDataAndDisplay() {
     $.ajax({
@@ -107,7 +146,7 @@ document.getElementById('addBtn').addEventListener('click', function () {
     formData.append("address3", address3);
     formData.append("address4", address4);
     formData.append("address5", address5);
-    formData.append("contacrnum", contact_num);  // Check spelling and consistency
+    formData.append("contacrnum", contact_num);
     formData.append("email", email);
     formData.append("role", role);
     formData.append("field", field);
