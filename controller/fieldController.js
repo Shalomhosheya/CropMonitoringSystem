@@ -87,15 +87,15 @@ document.getElementById('updateBtn').addEventListener('click', function () {
     var fieldPic2 = document.getElementById('inputGroupFile03').files[0];
     var label = document.getElementById('lbl1').textContent;
 
-    console.log(fieldloc, fieldsize, fieldstaff);
+    console.log(fieldloc, fieldsize, fieldstaff,fieldPic1,fieldPic2,label);
     // Create FormData object to handle files and add non-empty fields
-    var formData = new FormData();
-    if (fieldName) formData.append("fieldName", fieldName);
-    if (fieldloc) formData.append("fieldloc", fieldloc);
-    if (fieldsize) formData.append("fieldsize", fieldsize);
-    if (fieldstaff) formData.append("fieldstaff", fieldstaff);
-    if (fieldPic1) formData.append("fieldPic1", fieldPic1);
-    if (fieldPic2) formData.append("fieldPic2", fieldPic2);
+    // var formData = new FormData();
+    // formData.append("fieldName", fieldName);
+    // formData.append("fieldloc", fieldloc);
+    // formData.append("fieldsize", fieldsize);
+    // formData.append("fieldstaff", fieldstaff);
+    // formData.append("fieldPic1", fieldPic1);
+    // formData.append("fieldPic2", fieldPic2);
 
     // Send AJAX request with FormData
     var data = {
