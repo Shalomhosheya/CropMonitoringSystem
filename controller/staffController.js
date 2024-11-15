@@ -17,7 +17,7 @@ function populateTablestaff(staffData) {
 
     var label = document.getElementById('lbl2');  // Fixing the label declaration
 
-    const table = document.querySelector('#staffTable tbody');
+    const table = document.getElementById("tableBody");
     table.innerHTML = "";
 
     staffData.forEach((field, index) => {
@@ -97,6 +97,7 @@ function fetchDataAndDisplay() {
     });
 }
 
+
 document.getElementById('addBtn').addEventListener('click', function () {
     var firstname = document.getElementById('staffName').value;
     var secondName = document.getElementById('staffsecond').value;
@@ -173,6 +174,7 @@ document.getElementById('addBtn').addEventListener('click', function () {
     });
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
     // Define your array of gender options
     const genders = ["Male", "Female"];
@@ -188,7 +190,17 @@ document.addEventListener("DOMContentLoaded", function () {
         genderSelect.appendChild(option);
     });
 });
-/*
+document.addEventListener("DOMContentLoaded",function (){
+    const roles =["Farming","Adminstration","Working","Cleaning"];
+    const roleSelect = document.getElementById("role")
+    roles.forEach(roles=>{
+        const option = document.createElement("option");
+        option.value = roles.toLowerCase();
+        option.textContent = roles;
+        roleSelect.appendChild(option)
+    })
+})
+
 document.getElementById('updateBtn').addEventListener('click',function (){
     var firstname=document.getElementById('staffName').value;
     var secondName=document.getElementById('staffsecond').value;
@@ -239,4 +251,29 @@ document.getElementById('updateBtn').addEventListener('click',function (){
             alert("update fail")
         }
     })
-})*/
+})
+document.getElementById('deleteBtn2').addEventListener('click', function () {
+    console.log("Delete button clicked");  // Check if this log appears in the console
+
+    var staffID = document.getElementById("lbl2").textContent.trim();
+    if (!staffID) {
+        alert("Please select a field to delete.");
+        return;
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff/" + encodeURIComponent(staffID),
+        type: "DELETE",
+        contentType: 'application/json',
+        success: function (response) {
+            console.log("Staff Successfully Deleted", response);
+            alert("Staff Successfully Deleted");
+            fetchAndDisplayFields();
+            resettext()
+        },
+        error: function (xhr, status, error) {
+            console.log("Error deleting Staff:", xhr, status, error);
+            alert("Staff deletion failed");
+        }
+    });
+});
