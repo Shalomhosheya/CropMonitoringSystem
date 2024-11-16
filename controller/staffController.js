@@ -1,3 +1,12 @@
+function saveToLocalStorage(data) {
+    localStorage.setItem("staffData", JSON.stringify(data));
+}
+
+function loadFromLocalStorage() {
+    const data = localStorage.getItem("staffData");
+    return data ? JSON.parse(data) : [];
+}
+
 function populateTablestaff(staffData) {
     var firstname = document.getElementById('staffName');
     var secondName = document.getElementById('staffsecond');
@@ -15,12 +24,12 @@ function populateTablestaff(staffData) {
     var role = document.getElementById('role');
     var field1 = document.getElementById('field');
 
-    var label = document.getElementById('lbl2');  // Fixing the label declaration
+    var label = document.getElementById('lbl2');
 
     const table = document.getElementById("tableBody");
     table.innerHTML = "";
 
-    staffData.forEach((field, index) => {
+    staffData.forEach((field) => {
         const row = document.createElement("tr");
         row.innerHTML = `
             <tr>
@@ -65,6 +74,45 @@ function populateTablestaff(staffData) {
         table.appendChild(row);
     });
 }
+
+// Example usage:
+
+// Load data from localStorage on page load
+document.addEventListener("DOMContentLoaded", function () {
+    const staffData = loadFromLocalStorage();
+    populateTablestaff(staffData);
+});
+
+// Add data to the table and save it to localStorage
+function addStaffMember(newStaff) {
+    const staffData = loadFromLocalStorage();
+    staffData.push(newStaff);
+    saveToLocalStorage(staffData);
+    populateTablestaff(staffData);
+}
+
+// Example of adding a new staff member
+const exampleStaff = {
+    staffID: "1",
+    firstName: "John",
+    lastName: "Doe",
+    designation: "Manager",
+    gender: "Male",
+    joinDate: "2023-01-01",
+    DOB: "1990-01-01",
+    address1: "123 Main St",
+    address2: "Apt 4B",
+    address3: "Cityville",
+    address4: "Stateville",
+    address5: "12345",
+    contactNum: "123-456-7890",
+    email: "john.doe@example.com",
+    role: "Admin",
+    field: "HR"
+};
+
+// Call this to add the example staff to the table and localStorage
+// addStaffMember(exampleStaff);
 
 
 function fetchDataAndDisplay() {
@@ -243,6 +291,7 @@ document.getElementById('updateBtn').addEventListener('click',function (){
         contentType:"application/json",
         success:function (){
             alert("Update success")
+            fetchDataAndDisplay();
         },
         error:function (xhr,status,error){
             console.log(error);
@@ -268,12 +317,50 @@ document.getElementById('deleteBtn2').addEventListener('click', function () {
         success: function (response) {
             console.log("Staff Successfully Deleted", response);
             alert("Staff Successfully Deleted");
-            fetchAndDisplayFields();
+            fetchDataAndDisplay();
             resettext()
         },
         error: function (xhr, status, error) {
             console.log("Error deleting Staff:", xhr, status, error);
             alert("Staff deletion failed");
         }
+    });
+});
+function resettext() {
+    const elements = [
+        "staffName",
+        "staffsecond",
+        "designation",
+        "disabledSelect",
+        "dateInput",
+        "dateInput2",
+        "addresstext1",
+        "addresstext2",
+        "addresstext3",
+        "addresstext4",
+        "addresstext5",
+        "contactNum",
+        "exampleInputEmail1",
+        "role",
+        "field",
+        "lbl2"
+    ];
+
+    elements.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            if (id === "lbl2") {
+                element.textContent = ""; // For labels
+            } else {
+                element.value = ""; // For input fields
+            }
+        } else {
+            console.warn(`Element with id "${id}" not found.`);
+        }
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("resetBtn2").addEventListener("click", function () {
+        resettext();
     });
 });
