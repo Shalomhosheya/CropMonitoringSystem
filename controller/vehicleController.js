@@ -141,7 +141,8 @@ document.getElementById("deleteBtnVvv").addEventListener('click',function (){
   $.ajax({
       url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle/"+encodeURIComponent(vehicleID),
       type:"DELETE",
-      data: "application/json", success: function (response) {
+      data: "application/json",
+      success: function (response) {
           console.log("vehicle Successfully Deleted", response);
           alert("Vehicle  Successfully Removed");
           fetchAndDisplayFields();
@@ -152,4 +153,40 @@ document.getElementById("deleteBtnVvv").addEventListener('click',function (){
           alert("Vehicle deletion crendential failed");
       }
   });
+});
+document.getElementById("updateBtnV").addEventListener('click',function (){
+
+    const vehicleCategory = document.getElementById("disabledSelect1").value;
+    const fuelType = document.getElementById("disabledSelect2").value;
+    const remarks = document.getElementById("remarksV").value;
+    const status = document.getElementById("disabledSelect4").value;
+    const licenseNumberPlate = document.getElementById("numberPlateV").value;
+
+    const vehicleID= document.getElementById('lbl3').textContent.trim();
+
+    console.log(vehicleCategory, fuelType, remarks, status, licenseNumberPlate);
+
+    var formdata= new FormData;
+    formdata.append("vehicleCategory",vehicleCategory)
+    formdata.append("fuelType",fuelType)
+    formdata.append("remarks",remarks)
+    formdata.append("status",status)
+    formdata.append("licenseNumberPlate",licenseNumberPlate)
+    $.ajax({
+        url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle/"+ encodeURIComponent(vehicleID),
+        type:"PUT",
+        data: formdata,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            console.log("vehicle Successfully Updated", response);
+            alert("Vehicle  Successfully Updated");
+            fetchAndDisplayFields();
+            // resettext()
+        },
+        error: function (xhr, status, error) {
+            console.log("Error Update field:", xhr, status, error);
+            alert("Vehicle Update crendential failed");
+        }
+    });
 });
