@@ -37,7 +37,7 @@
     <div class="card-body">
       <h2 class="text-center">Vehicle Input</h2>
       <br>
-      Vehicle Code:<label> </label>
+      Vehicle Code:<label id="lbl3"> </label>
 
     </div>
     <br>
@@ -90,11 +90,11 @@
          <br>
         <button type="button" class="btn btn-primary"id="addBtnV">ADD</button>
         <button type="button" class="btn btn-secondary"id="updateBtnV">UPDATE</button>
-        <button type="button" class="btn btn-success"id="deleteBtnV">DELETE</button>
+        <button type="button" class="btn btn-success delete"id="deleteBtnVvv">DELETE</button>
         <button type="button" class="btn btn-danger" id="resetBtnV">RESET</button>
       </div>
       <div class="card-body">
-        <table class="table table-dark ">
+        <table class="table table-dark"id="vehicleTable">
           <thead>
           <tr>
             <th scope="col">Vehicle Code</th>
@@ -106,15 +106,6 @@
           </tr>
           </thead>
           <tbody>
-          <tr >
-            <th class="rowSelect" scope="row">1</th>
-            <td class="rowSelect">Mark</td>
-            <td class="rowSelect">Otto</td>
-            <td class="rowSelect">@mdo</td>
-            <td class="rowSelect">mdo</td>
-            <td class="rowSelect">mdo</td>
-          </tr>
-
           </tbody>
         </table>
       </div>
