@@ -52,13 +52,13 @@
         </div>
         <br>
         <div class="form-group">
-          <label for="dateInput2" style="position: relative;left: 5px">Reserved Date</label>
-          <input type="date" class="form-control" id="dateInput2" name="dateInput">
+          <label for="reservedDate_R" style="position: relative;left: 5px">Reserved Date</label>
+          <input type="date" class="form-control" id="reservedDate_R" name="dateInput">
         </div>
         <br>
         <div class="input-group mb-3">
-          <label class="input-group-text" for="responseType">Response</label>
-          <select class="form-select" id="responseType">
+          <label class="input-group-text" for="responseType_R">Response</label>
+          <select class="form-select" id="responseType_R">
             <option selected>Choose...</option>
             <!--<option value="1">One</option>
             <option value="2">Two</option>
@@ -67,14 +67,19 @@
         </div>
         <br>
           <div class="input-group mb-3">
-            <label class="input-group-text" for="reservationType">Reservation Type</label>
-            <select class="form-select" id="reservationType">
+            <label class="input-group-text" for="reservationType_R">Reservation Type</label>
+            <select class="form-select" id="reservationType_R">
               <option selected>Choose...</option>
               <!--<option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>-->
             </select>
           </div>
+        <br>
+        <button type="button" class="btn btn-primary" id="addBtn_R">ADD</button>
+        <button type="button" class="btn btn-secondary"id="updateBtn_R">UPDATE</button>
+        <button type="button" class="btn btn-success"id="deleteBtn_R">DELETE</button>
+        <button type="button" class="btn btn-danger"id="resetBtn_R">RESET</button>
       </div>
     </div>
     <br>
