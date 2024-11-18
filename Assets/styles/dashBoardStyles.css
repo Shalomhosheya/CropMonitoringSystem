@@ -132,6 +132,9 @@
     background-color: #e74c3c;
     cursor: pointer;
 }
+.reservationTable:hover{
+    background-color: blue;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {

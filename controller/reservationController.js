@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded',function (){
     const storedVehicle = JSON.parse(localStorage.getItem("vehiclesData"));
 
-    if (storedVehicle) {
-        populateTable(storedVehicle);
-    }
+    // if (storedVehicle) {
+    //     populateTable(storedVehicle);
+    // }
 
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle")
         .then(response => response.json())
@@ -130,6 +130,7 @@ document.getElementById("addBtn_R").addEventListener('click',function (){
       processData: false,
       success : function (){
           alert("Vehicle Reservation ADDED")
+          populateTable2()
       },
       error:function (xhr,error,status){
           console.log("Error Details:", {
@@ -144,22 +145,138 @@ document.getElementById("addBtn_R").addEventListener('click',function (){
     })
 
 });
+function populateTable2() {
+    const staffInput = document.getElementById("staffID_R");
+    const vehicleInput = document.getElementById("vehicleID_R");
+    const reservedDateInput = document.getElementById("reservedDate_R");
+    const responseTypeInput = document.getElementById("responseType_R");
+    const reservationTypeInput = document.getElementById("reservationType_R");
+    const reservationIdLabel = document.getElementById("lbl3");
 
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
+        method: "GET"
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Storing the response in localStorage
+            localStorage.setItem("reservationData", JSON.stringify(data));
+
+            // Selecting the table body to append rows
+            const tableBody = document.querySelector("#fieldsTable tbody");
+
+            // Clearing existing rows to avoid duplication
+            tableBody.innerHTML = "";
+
+            // Populating the table with reservation data
+            data.forEach(reservation => {
+                console.log("Reservation object:", reservation); // Debugging log
+
+                const row = document.createElement("tr");
+
+                // Ensure property names match the backend response
+                row.innerHTML = `
+                    <td class="clickableField reservationTable">${reservation.reservationID}</td>
+                    <td class="clickableField reservationTable">${reservation.staffID}</td>
+                    <td class="clickableField reservationTable">${reservation.vehicleId}</td>
+                    <td class="clickableField reservationTable">${reservation.date}</td>
+                    <td class="clickableField reservationTable">${reservation.response}</td>
+                    <td class="clickableField reservationTable">${reservation.reervationtype}</td>
+                `;
+
+                // Add event listener for click on each row
+                row.addEventListener('click', function () {
+                    // Populate the form fields with the clicked row's data
+                    reservationIdLabel.textContent = reservation.reservationID;
+                    staffInput.value = reservation.staffID;
+                    vehicleInput.value = reservation.vehicleId;
+                    reservedDateInput.value = reservation.date;
+                    responseTypeInput.value = reservation.response;
+                    reservationTypeInput.value = reservation.reervationtype;
+
+                    console.log("Row data loaded into form for editing:", reservation);
+                });
+
+                tableBody.appendChild(row);
+            });
+
+            console.log("Table populated successfully!");
+        })
+        .catch(error => {
+            console.error("Error fetching reservation data:", error);
+            alert("Failed to fetch reservation data. Check console for details.");
+        });
+}
+
+populateTable2();
 document.getElementById("resetBtn_R").addEventListener('click',function (){
+   resettext();
+});
+
+function resettext(){
     document.getElementById("staffID_R").value = "";
     document.getElementById("vehicleID_R").value = "";
-     document.getElementById("reservedDate_R").value ="";
+    document.getElementById("reservedDate_R").value ="";
     document.getElementById("responseType_R").value = "";
     document.getElementById("reservationType_R").value = "";
     document.getElementById('lbl3').textContent ="";
-});
-document.getElementById('updateBtn_R').addEventListener('click',function (){
+}
+document.getElementById('updateBtn_R').addEventListener('click', function () {
     const staffID = document.getElementById("staffID_R").value;
     const vehicleId = document.getElementById("vehicleID_R").value;
-    const reservedDate = document.getElementById("reservedDate_R").value;
+    const date = document.getElementById("reservedDate_R").value;
     const response = document.getElementById("responseType_R").value;
-    const reservationType = document.getElementById("reservationType_R").value;
+    const reervationtype = document.getElementById("reservationType_R").value;
     const reservatioID = document.getElementById('lbl3').textContent;
 
+    // Creating the JSON object
+    const jsonData = {
+        staffID: staffID,
+        vehicleId: vehicleId,
+        date: date,
+        response: response,
+        reervationtype: reervationtype
+    };
+
+    // Sending the AJAX request with JSON payload
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion/" + encodeURIComponent(reservatioID),
+        type: "PUT",
+        data: JSON.stringify(jsonData), // Convert the object to JSON
+        contentType: "application/json", // Specify content type as JSON
+        processData: false, // No need to process data
+        success: function (response) {
+            console.log("Reservation Updated", response);
+            alert("Reservation Updated");
+            populateTable2();
+            // resettext();
+        },
+        error: function (xhr, status, error) {
+            console.log("Error updating reservation:", xhr, status, error);
+            alert("Reservation update failed. Check console for details.");
+        }
+    });
+});
+document.getElementById('deleteBtn_R').addEventListener('click',function (){
+    const reservatioID = document.getElementById('lbl3').textContent;
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion/" + encodeURIComponent(reservatioID),
+        type: "DELETE",
+        contentType: 'application/json',
+        success: function (response) {
+            console.log("Reservation  Removed", response);
+            alert("Reservation  Removed");
+            populateTable2();
+            resettext();
+        },
+        error: function (xhr, status, error) {
+            console.log("Error deleting Staff:", xhr, status, error);
+            alert("Reservation not removed");
+        }
+    });
 
 });
