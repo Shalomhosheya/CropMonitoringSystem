@@ -38,7 +38,7 @@ function populateTablestaff(staffData) {
                 <td class="clickableField">${field.lastName}</td>
                 <td class="clickableField">${field.designation}</td>
                 <td class="clickableField">${field.gender}</td>
-                <td class="clickableField">${field.joinDate}</td>
+                <td class="clickableField">${field.join_Date}</td>
                 <td class="clickableField">${field.DOB}</td>
                 <td class="clickableField">${field.address1}</td>
                 <td class="clickableField">${field.address2}</td>
@@ -126,7 +126,7 @@ function fetchDataAndDisplay() {
                 lastName: staff.lastName,
                 designation: staff.designation,
                 gender: staff.gender,
-                joinDate: staff.joinDate,
+                joinDate: staff.join_Date,
                 DOB: staff.DOB,
                 address1: staff.address1,
                 address2: staff.address2,

@@ -25,4 +25,35 @@ hamburger.addEventListener('click', () => {
 });
 document.getElementById('logoutBtn').addEventListener('click',function (){
     window.location.href="../index.html"
-})
+});
+/*
+document.getElementById("member");//add get request of staff and count the member and add to the member text content//
+//http://localhost:5050/backendCropMonitoringSystem/api/v1/staff
+*/
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Function to fetch staff data and update the member count
+    function updateStaffCount() {
+        fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Assume `data` is an array of staff objects
+                const staffCount = data.length;
+
+                // Update the text content of the member element
+                document.getElementById("member").textContent = staffCount;
+            })
+            .catch(error => {
+                console.error("Error fetching staff data:", error);
+                document.getElementById("member").textContent = "Error fetching data";
+            });
+    }
+
+    // Call the function to update the staff count
+    updateStaffCount();
+});
