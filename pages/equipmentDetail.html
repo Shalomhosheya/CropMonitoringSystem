@@ -27,8 +27,8 @@
       <a href="vehicle.html">Vehicle</a>
       <a href="reservation.html">Reservation</a>
       <a href="crop.html">Crops</a>
-      <a href="equipMent.html"class="active">Equipment</a>
-      <a href="#settings">Equipment Detail</a>
+      <a href="equipMent.html">Equipment</a>
+      <a href="equipmentDetail.html"class="active">Equipment Detail</a>
       <a href="#settings">MonitoringLog</a>
 
       <button id="logoutBtn" style="width: 13rem;">Log Out</button>
@@ -38,42 +38,18 @@
   <!-- Main Content -->
   <main class="content">
 
-    <h2 class="text-center">Equipment Input</h2>
+    <h2 class="text-center">Equipment Detail</h2>
     <br>
     <br>
     <div class="card">
       <div class="card-body">
         <div class="card-body">
 
-          Equipment Code:<label id="lbl4"> </label>
+          Equipment Detail Receipt Number:<label id="lbl4"> </label>
           <br>
           <br>
           <br>
           <!-- Field Name -->
-          <div class="input-group mb-4">
-            <span class="input-group-text" id="addon-wrapping">Equipment</span>
-            <input id="equip_E" type="text" class="form-control" placeholder="Enter field name" aria-label="Field Name" aria-describedby="addon-wrapping">
-          </div>
-          <br>
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="type_E">Type</label>
-            <select class="form-select" id="type_E">
-              <option selected>Choose...</option>
-              <!--<option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>-->
-            </select>
-          </div>
-          <br>
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="status_E">Status</label>
-            <select class="form-select" id="status_E">
-              <option selected>Choose...</option>
-              <!--<option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>-->
-            </select>
-          </div>
 
         </div>
         <br>
@@ -83,7 +59,7 @@
         <button type="button" class="btn btn-danger" id="resetBtn_E">RESET</button>
       </div>
       <div class="card-body">
-        <table class="table table-dark"id="equipmentTable">
+        <table class="table table-dark"id="vehicleTable">
           <thead>
           <tr>
             <th scope="col">Equipment Code</th>
@@ -104,7 +80,7 @@
   </main>
 </div>
 <script src="../controller/dashBoardController.js"></script>
-<script src="../controller/equipmentController.js"></script>
+<script src="../controller/EquipmentDetailController.js"></script>
 <!--<script src="../controller/fieldController.js"></script>-->
 <script src="../controller/js/jquery-1.11.3.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

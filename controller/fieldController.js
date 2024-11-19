@@ -161,7 +161,6 @@ function fetchAndDisplayFields() {
         populateTable(storedFields);
     }
 
-
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field",
         type: "GET",
