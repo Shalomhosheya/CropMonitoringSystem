@@ -22,34 +22,7 @@ document.addEventListener('DOMContentLoaded',function (){
 document.getElementById("resetBtn_E").addEventListener('click',function (){
    resettext();
 });
-document.getElementById("updateBtn_E").addEventListener('click',function (){
-    const id=document.getElementById('lbl4').textContent;
-    const equipName=document.getElementById('equip_E').value;
-    const type=document.getElementById('type_E').value;
-    const status=document.getElementById('status_E').value;
 
-    var formdata= new FormData();
-
-    formdata.append("",id)
-    formdata.append("",equipName)
-    formdata.append("",type)
-    formdata.append("",status)
-
-    $.ajax({
-     url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment/"+encodeURIComponent(id),
-     type:"PUT",
-     contentType:false,
-     processData:false,
-     success:function (){
-         alert("update successfully")
-     },
-     error:function (xhr,status,error){
-         console(xhr,status,error)
-         alert("update failed")
-
-     }
-    });
-});
 
 fetchdata();
 function resettext(){
@@ -59,12 +32,11 @@ function resettext(){
     document.getElementById('status_E').value="";
 }
 document.getElementById("addBtn_E").addEventListener("click", function () {
-    const id = document.getElementById('lbl4').textContent;
     const equipName = document.getElementById('equip_E').value;
     const type = document.getElementById('type_E').value;
     const status = document.getElementById('status_E').value;
 
-    console.log(id, equipName, type, status);
+    console.log("Adding Equipment:", { equipName, type, status });
 
     const formdata = new FormData();
     formdata.append("name", equipName);
@@ -78,12 +50,13 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
         data: formdata,
         contentType: false,
         processData: false,
-        success: function () {
+        success: function (response) {
             alert("Added equipment successfully");
+            console.log("Response from POST:", response);
             fetchdata(); // Refresh table after successful addition
         },
         error: function (xhr, status, error) {
-            console.error("Error Details:", {
+            console.error("Error during POST:", {
                 xhr: xhr,
                 status: status,
                 error: error,
@@ -95,66 +68,142 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
 });
 
 function fetchdata() {
-    // Fetch stored data from localStorage if available
     const storedData = localStorage.getItem("equipmentData");
 
-    if (storedData){
-        populateTable(storedData)
+    if (storedData) {
+        try {
+            const parsedData = JSON.parse(storedData);
+            if (Array.isArray(parsedData)) {
+                populateTable(parsedData);
+            } else {
+                console.error("Stored data is not an array:", parsedData);
+            }
+        } catch (error) {
+            console.error("Failed to parse stored data:", error);
+        }
     }
-    $.ajax({
-        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment", // Correct API endpoint
-        type: "GET",
-        success: function (response) {
-            const essential = response.map(equip => ({
-                equip_id: equip.equip_id,
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // Parse JSON data from response
+        })
+        .then(data => {
+            console.log("Response from GET:", data);
+
+            // Assuming equip_id might be missing, ensure data is enriched
+            const essential = data.map((equip, index) => ({
+                equip_id: equip.equip_id || `TempID-${index + 1}`, // Assign a temp ID if missing
                 name: equip.name,
                 type: equip.type,
                 status: equip.status
             }));
 
             try {
-                // Store the fetched data in localStorage
                 localStorage.setItem("equipmentData", JSON.stringify(essential));
             } catch (e) {
                 console.error("Failed to store data in localStorage:", e);
             }
 
-            populateTable(essential); // Populate the table with the data
-        },
-        error: function (xhr, status, error) {
+            populateTable(essential); // Populate the table with the enriched data
+        })
+        .catch(error => {
             console.error("Failed to fetch equipment data:", error);
-        }
-    });
+        });
+
 }
 
 function populateTable(data) {
-    const table = document.querySelector("#equipmentTable tbody");
-    table.innerHTML = ""; // Clear existing rows
+    console.log("Populating Table with Data:", data);
 
-    // Iterate over the data and dynamically create rows
-    data.forEach((equip, index) => {
+    if (!Array.isArray(data)) {
+        console.error("Data is not an array:", data);
+        return;
+    }
+
+    const tableBody = document.querySelector("#equipmentTable tbody");
+    tableBody.innerHTML = ""; // Clear existing rows
+
+    data.forEach((equip) => {
         const row = document.createElement("tr");
+        row.innerHTML = `
+            <th scope="row"class="equip_table">${equip.equip_id}</th>
+            <td class="equip_table">${equip.name}</td>
+            <td class="equip_table">${equip.type}</td>
+            <td class="equip_table">${equip.status}</td>
+        `;
 
-        // Create and populate table cells
-        const equipIdCell = document.createElement("td");
-        equipIdCell.textContent = equip.equip_id;
+        // Add click event listener to populate input fields
+        row.addEventListener("click", function () {
+            document.getElementById('lbl4').textContent = equip.equip_id; // Update label
+            document.getElementById('equip_E').value = equip.name;        // Update input field
+            document.getElementById('type_E').value = equip.type;         // Update input field
+            document.getElementById('status_E').value = equip.status;     // Update input field
+        });
 
-        const nameCell = document.createElement("td");
-        nameCell.textContent = equip.name;
-
-        const typeCell = document.createElement("td");
-        typeCell.textContent = equip.type;
-
-        const statusCell = document.createElement("td");
-        statusCell.textContent = equip.status;
-
-        // Append cells to the row
-        row.appendChild(equipIdCell);
-        row.appendChild(nameCell);
-        row.appendChild(typeCell);
-        row.appendChild(statusCell);
-
-        // Append the row to the table
-        table.appendChild(row);
+        tableBody.appendChild(row); // Append the row to the table
     });
 }
+document.getElementById("updateBtn_E").addEventListener('click', function () {
+    const id = document.getElementById('lbl4').textContent;
+    const equipName = document.getElementById('equip_E').value;
+    const type = document.getElementById('type_E').value;
+    const status = document.getElementById('status_E').value;
+
+    // Create a JSON object with the necessary fields
+    const data = {
+        equip_id: id,
+        name: equipName,
+        type: type,
+        status: status
+    };
+
+    // Send the PUT request using jQuery's $.ajax with JSON data
+    $.ajax({
+        url: `http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment/${encodeURIComponent(id)}`,
+        type: "PUT",
+        contentType: "application/json",  // Set the content type to JSON
+        data: JSON.stringify(data),  // Convert the JavaScript object to a JSON string
+        success: function (response) {
+            alert("Update successful");
+            console.log("Update response:", response);
+            fetchdata()
+        },
+        error: function (xhr, status, error) {
+            console.error("Update failed:", error);
+            alert("Update failed");
+        }
+    });
+});
+
+
+document.getElementById('deleteBtn_E').addEventListener('click', function () {
+    const id = document.getElementById('lbl4').textContent;
+
+    if (!id) {
+        alert("No ID specified for deletion.");
+        return;
+    }
+
+    // Confirm the deletion action
+    const confirmDelete = confirm(`Are you sure you want to delete equipment with ID: ${id}?`);
+    if (!confirmDelete) return;
+
+    // Perform the DELETE request using jQuery AJAX
+    $.ajax({
+        url: `http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment/${encodeURIComponent(id)}`,
+        type: "DELETE",
+        success: function (data) {
+            alert("Deletion successful");
+            console.log("Delete response:", data);
+
+            // Optionally, refresh the data in your table
+            fetchdata();
+        },
+        error: function (xhr, status, error) {
+            console.error("Deletion failed:", error);
+            alert("Failed to delete equipment.");
+        }
+    });
+});

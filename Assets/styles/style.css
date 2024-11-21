@@ -83,7 +83,6 @@ button:hover{
 	background-color: mediumspringgreen;
 	cursor: pointer;
 }
-
 #chk:checked ~ .login{
 	transform: translateY(-500px);
 }

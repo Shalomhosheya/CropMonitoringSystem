@@ -135,7 +135,9 @@
 .reservationTable:hover{
     background-color: blue;
 }
-
+.equip_table:hover{
+    background-color: #f5a623;
+}
 /* Responsive design */
 @media (max-width: 768px) {
     .hamburger {
