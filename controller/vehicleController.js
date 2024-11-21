@@ -190,3 +190,18 @@ document.getElementById("updateBtnV").addEventListener('click',function (){
         }
     });
 });
+document.getElementById("resetBtnV").addEventListener("click", function(){
+resetText()
+
+});
+
+function resetText() {
+    
+    const vehicleCategory = document.getElementById("disabledSelect1").value=" ";
+    const fuelType = document.getElementById("disabledSelect2").value=" ";
+    const remarks = document.getElementById("remarksV").value=" ";
+    const status = document.getElementById("disabledSelect4").value="";
+    const licenseNumberPlate = document.getElementById("numberPlateV").value="";
+
+    const vehicleID= document.getElementById('lbl3').textContent =" ";
+} 
