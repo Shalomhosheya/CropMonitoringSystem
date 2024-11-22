@@ -63,6 +63,12 @@ document.getElementById('addBtn_C').addEventListener('click', function () {
         });
 });
 function tableAppend() {
+    const category = document.getElementById('category_C');
+    const commonName = document.getElementById('cropName_C');
+    const cropImage = document.getElementById('inputGroupFile01')?.files[0] || null; // Get the file object
+    const cropScientific = document.getElementById('cropScientific_C');
+    const cropSeason = document.getElementById('cropSeason_C');
+    const id = document.getElementById('lbl4');
     // Send a GET request to fetch the crop data
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse")
         .then(response => {
@@ -82,18 +88,26 @@ function tableAppend() {
                 const row = document.createElement("tr");
 
                 row.innerHTML = `
-                    <td>${crop.corpseID || "N/A"}</td>
-                    <td>${crop.common_name || "N/A"}</td>
-                    <td>${crop.crop_scientific_name || "N/A"}</td>
-                    <td>${crop.category || "N/A"}</td>
-                    <td>${crop.crop_season || "N/A"}</td>
+                    <td class="clickablecrops">${crop.corpseID || "N/A"}</td>
+                    <td class="clickablecrops">${crop.common_name || "N/A"}</td>
+                    <td class="clickablecrops">${crop.crop_scientific_name || "N/A"}</td>
+                    <td class="clickablecrops">${crop.category || "N/A"}</td>
+                    <td class="clickablecrops">${crop.crop_season || "N/A"}</td>
                 `;
+                row.querySelector(".clickablecrops").addEventListener("click", function () {
+                    id.textContent = crop.corpseID;  // Update the label with the clicked fieldID
+                    category.value = crop.common_name;       // Set value in input
+                    cropScientific.value =crop.crop_scientific_name ;    // Set value in input
+                    cropSeason.value =crop.crop_season ;       // Set value in input
+                    commonName.value = crop.common_name;          // Set value in input
+
+                });
 
                 tableBody.appendChild(row);
             });
 
             // Optionally, save the data in local storage
-            localStorage.setItem("cropsData", JSON.stringify(data));
+            // localStorage.setItem("", JSON.stringify(data));
         })
         // .catch(error => {
         //     alert("Failed to fetch crop data. Please try again.");
@@ -120,3 +134,56 @@ function reset(){
     document.getElementById('cropSeason_C').value = '';
     document.getElementById('lbl3').textContent ="";
 }
+document.getElementById("updateBtn_C").addEventListener('click', function () {
+    const category = document.getElementById('category_C').value;
+    const commonName = document.getElementById('cropName_C').value;
+    const cropScientific = document.getElementById('cropScientific_C').value;
+    const cropSeason = document.getElementById('cropSeason_C').value;
+    const id = document.getElementById('lbl4').textContent;
+
+    // Create JSON payload
+    const payload = {
+        common_name: commonName,
+        crop_scientific_name: cropScientific,
+        category: category,
+        crop_season: cropSeason,
+    };
+
+    // Send the PUT request using jQuery's $.ajax
+    $.ajax({
+        url: `http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse/${encodeURIComponent(id)}`,
+        type: "PUT",
+        contentType: "application/json", // Indicate JSON payload
+        data: JSON.stringify(payload), // Convert the payload to JSON string
+        success: function (data) {
+            console.log("Crop updated successfully:", data);
+            alert("Crop updated successfully!");
+            // Optionally, reset or refresh the UI
+            // reset();
+            tableAppend();
+        },
+        error: function (xhr, status, error) {
+            console.error("Error updating crop:", error);
+            alert("Failed to update crop. Please try again.");
+        },
+    });
+});
+document.getElementById('deleteBtn_C').addEventListener('click',function (){
+    const  id =document.getElementById("lbl4").textContent;
+    $.ajax({
+        url: `http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse/${encodeURIComponent(id)}`,
+        type: "DELETE",
+        contentType: "application/json", // Indicate JSON payload
+        success: function (data) {
+            console.log("Crop removed", data);
+            alert("Crop removed successfully!");
+
+            tableAppend();
+        },
+        error: function (xhr, status, error) {
+            console.error("Error removing crop:", error);
+            alert("Failed to remove crop. Please try again.");
+        },
+    });
+
+})

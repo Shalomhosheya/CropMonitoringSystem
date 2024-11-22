@@ -83,6 +83,9 @@ button:hover{
 	background-color: mediumspringgreen;
 	cursor: pointer;
 }
+.clickablecrops:hover{
+	background-color: violet;
+}
 #chk:checked ~ .login{
 	transform: translateY(-500px);
 }
