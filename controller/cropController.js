@@ -132,7 +132,7 @@ function reset(){
     document.getElementById('inputGroupFile01').value = '';
     document.getElementById('cropScientific_C').value = '';
     document.getElementById('cropSeason_C').value = '';
-    document.getElementById('lbl3').textContent ="";
+    document.getElementById('lbl4').textContent =" ";
 }
 document.getElementById("updateBtn_C").addEventListener('click', function () {
     const category = document.getElementById('category_C').value;
@@ -186,4 +186,8 @@ document.getElementById('deleteBtn_C').addEventListener('click',function (){
         },
     });
 
+})
+
+document.getElementById('resetBtn_C').addEventListener('click',function (){
+    reset();
 })
