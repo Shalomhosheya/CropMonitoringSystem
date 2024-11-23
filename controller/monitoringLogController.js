@@ -83,12 +83,64 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+document.getElementById('addBtn_Ml').addEventListener('click', function () {
+    const staffIDSelect = document.getElementById('staffID_Ml').value; // Get the staff dropdown value
+    const fieldID = document.getElementById('fieldID_Ml').value; // Get the field dropdown value
+    const cropsID = document.getElementById('cropID_Ml').value; // Get the crops dropdown value
+    const logDate = document.getElementById('logDate_Ml').value; // Get the log date
+    const observation = document.getElementById('observationDis_Ml').value; // Get the observation text
+    const observationImageInput = document.getElementById('image_Ml'); // Get the image input element
 
-document.getElementById('addBtn_Ml').addEventListener('click',function (){
-    const staffIDSelect = document.getElementById('staffID_Ml').value; // Get the dropdown element
-    const fieldID = document.getElementById('fieldID_Ml').value; // Get the field dropdown element
-    const cropsID = document.getElementById('cropID_Ml').value; // Get the crops dropdown element
-    const observation =document.getElementById('observationDis_Ml').value
-    const observationimage =document.getElementById('image_Ml').value
+    // Check if the image input is not empty and get the file
+    let observationImage = null;
+    if (observationImageInput && observationImageInput.files.length > 0) {
+        observationImage = observationImageInput.files[0];
+    }
+
+    // Create FormData object and append the values
+    const formData = new FormData();
+    formData.append("staffID", staffIDSelect);
+    formData.append("fieldID", fieldID);
+    formData.append("corpseID", cropsID);
+    formData.append("log_Date", logDate);
+    formData.append("observation", observation);
+    if (observationImage) {
+        formData.append("observed_image", observationImage); // Append the file
+    }
+
+    // Send the AJAX request
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog/save",
+        type: "POST",
+        data: formData,
+        processData: false, // Don't process the data (important for FormData)
+        contentType: false, // Let the browser set the content type, including the boundary
+        success: function (response) {
+            console.log("Monitoring Log added successfully:", response);
+            alert("Monitoring Log added successfully!");
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to add Monitoring Log:", error);
+            alert("Failed to add Monitoring Log. Please try again.");
+        }
+    });
 });
+
+document.getElementById('resetBtn_Ml').addEventListener('click',function (){
+    resettext();
+})
+
+
+function resettext(){
+     document.getElementById('staffID_Ml').value=""; // Get the staff dropdown value
+     document.getElementById('fieldID_Ml').value=""; // Get the field dropdown value
+    document.getElementById('cropID_Ml').value=" "; // Get the crops dropdown value
+    document.getElementById('logDate_Ml').value=" "; // Get the log date
+     document.getElementById('observationDis_Ml').value=" "; // Get the observation text
+    document.getElementById('image_Ml').value=""; // Get the image input element
+    document.getElementById('lbl5').textContent="";
+    document.getElementById("previewImage3").src="";
+
+}
+
 
