@@ -94,21 +94,25 @@ function populateTableML() {
     const observationImageInput = document.getElementById('image_Ml'); // Image input
     const idLabel = document.getElementById('lbl5'); // Label for the ID
 
-    // Fetch monitoring logs data
-    $.ajax({
-        url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog", // API endpoint
-        type: "GET", // HTTP method
-        success: function (response) {
-            console.log("Monitoring logs fetched successfully:", response);
+    // Fetch monitoring logs data using Fetch API
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Monitoring logs fetched successfully:", data);
 
             // Save the response data in local storage
-            localStorage.setItem("monitoringLogs", JSON.stringify(response));
+            localStorage.setItem("monitoringLogs", JSON.stringify(data));
 
             // Clear any existing table rows
             tableBody.innerHTML = "";
 
             // Populate the table
-            response.forEach(log => {
+            data.forEach((log) => {
                 const row = document.createElement("tr");
 
                 // Create table cells for each log property
@@ -121,11 +125,11 @@ function populateTableML() {
                         data-observation="${log.observation}">
                         ${log.monitoringL_id}
                     </td>
-                    <td class="clickableMLD" >${log.staffID}</td>
-                    <td class="clickableMLD" >${log.corpseID}</td>
-                    <td class="clickableMLD" >${log.fieldID}</td>
-                    <td class="clickableMLD" >${log.log_Date}</td>
-                    <td class="clickableMLD" >${log.observation}</td>
+                    <td class="clickableMLD">${log.staffID}</td>
+                    <td class="clickableMLD">${log.corpseID}</td>
+                    <td class="clickableMLD">${log.fieldID}</td>
+                    <td class="clickableMLD">${log.log_Date}</td>
+                    <td class="clickableMLD">${log.observation}</td>
                 `;
 
                 // Append the row to the table
@@ -151,15 +155,13 @@ function populateTableML() {
                     logDate.value = logDateValue;
                     observation.value = observationText;
 
-                    alert(`Selected Log ID: ${monitoringLId}`);
                 }
             });
-        },
-        error: function (xhr, status, error) {
+        })
+        .catch((error) => {
             console.error("Failed to fetch monitoring logs:", error);
             alert("Failed to load monitoring logs. Please try again.");
-        }
-    });
+        });
 }
 
 populateTableML();
@@ -210,12 +212,36 @@ document.getElementById('resetBtn_Ml').addEventListener('click',function (){
     resettext();
 })
 
-document.getElementById('deleteBtn_C').addEventListener('click',function (){
+document.getElementById('deleteBtn_Ml').addEventListener('click', function () {
+    const idLabel = document.getElementById('lbl5').textContent; // Get the ID from the label
 
-})
+    // Confirm the deletion
+    if (!idLabel) {
+        alert("No record selected to delete.");
+        return;
+    }
+    const confirmation = confirm(`Are you sure you want to delete record with ID: ${idLabel}?`);
 
-document.getElementById('updateBtn_C').addEventListener('click',function (){
+    if (confirmation) {
+        // AJAX request to delete the record
+        $.ajax({
+            url: `http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog/${idLabel}`, // Endpoint to delete the record
+            type: "DELETE", // HTTP DELETE method
+            success: function (response) {
+                console.log("Record deleted successfully:", response);
+                alert(`Record with ID: ${idLabel} has been deleted.`);
+                populateTableML(); // Refresh the table after deletion
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to delete record:", error);
+                alert("Failed to delete record. Please try again.");
+            }
+        });
+    }
+});
 
+document.getElementById('updateBtn_Ml').addEventListener('click',function (){
+    console.log("update Button clicked");
 })
 
 
