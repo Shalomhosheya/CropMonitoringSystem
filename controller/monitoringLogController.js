@@ -1,3 +1,15 @@
+
+document.getElementById('image_Ml')?.addEventListener('change', function(event) {
+    showPreview(event, 'previewImage3');
+});
+function showPreview(event, previewId) {
+    const reader = new FileReader();
+    reader.onload = function () {
+        const previewImage = document.getElementById(previewId);
+        previewImage.src = reader.result; // Set image preview src to uploaded image
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 document.addEventListener('DOMContentLoaded', function () {
     const staffIDSelect = document.getElementById('staffID_Ml'); // Get the dropdown element
 
@@ -71,3 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.getElementById('addBtn_Ml').addEventListener('click',function (){
+    const staffIDSelect = document.getElementById('staffID_Ml').value; // Get the dropdown element
+    const fieldID = document.getElementById('fieldID_Ml').value; // Get the field dropdown element
+    const cropsID = document.getElementById('cropID_Ml').value; // Get the crops dropdown element
+    const observation =document.getElementById('observationDis_Ml').value
+    const observationimage =document.getElementById('image_Ml').value
+});
+
