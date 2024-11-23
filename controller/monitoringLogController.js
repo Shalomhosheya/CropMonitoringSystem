@@ -121,11 +121,11 @@ function populateTableML() {
                         data-observation="${log.observation}">
                         ${log.monitoringL_id}
                     </td>
-                    <td>${log.staffID}</td>
-                    <td>${log.corpseID}</td>
-                    <td>${log.fieldID}</td>
-                    <td>${log.log_Date}</td>
-                    <td>${log.observation}</td>
+                    <td class="clickableMLD" >${log.staffID}</td>
+                    <td class="clickableMLD" >${log.corpseID}</td>
+                    <td class="clickableMLD" >${log.fieldID}</td>
+                    <td class="clickableMLD" >${log.log_Date}</td>
+                    <td class="clickableMLD" >${log.observation}</td>
                 `;
 
                 // Append the row to the table
