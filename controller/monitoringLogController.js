@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 option.textContent = `${crop.corpseID} - ${crop.common_name}`; // Display corpseID and common_name
                 cropsID.appendChild(option); // Append option to the dropdown
             });
+            populateTableML();
         },
         error: function (xhr, status, error) {
             console.error("Failed to fetch crop data:", error);
@@ -83,6 +84,85 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+function populateTableML() {
+    const tableBody = document.querySelector("#equipmentTable tbody"); // Get the table body element
+    const staffIDSelect = document.getElementById('staffID_Ml'); // Staff dropdown
+    const fieldID = document.getElementById('fieldID_Ml'); // Field dropdown
+    const cropsID = document.getElementById('cropID_Ml'); // Crops dropdown
+    const logDate = document.getElementById('logDate_Ml'); // Log date input
+    const observation = document.getElementById('observationDis_Ml'); // Observation input
+    const observationImageInput = document.getElementById('image_Ml'); // Image input
+    const idLabel = document.getElementById('lbl5'); // Label for the ID
+
+    // Fetch monitoring logs data
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog", // API endpoint
+        type: "GET", // HTTP method
+        success: function (response) {
+            console.log("Monitoring logs fetched successfully:", response);
+
+            // Save the response data in local storage
+            localStorage.setItem("monitoringLogs", JSON.stringify(response));
+
+            // Clear any existing table rows
+            tableBody.innerHTML = "";
+
+            // Populate the table
+            response.forEach(log => {
+                const row = document.createElement("tr");
+
+                // Create table cells for each log property
+                row.innerHTML = `
+                    <td class="clickableML" data-id="${log.monitoringL_id}" 
+                        data-staff-id="${log.staffID}" 
+                        data-corpse-id="${log.corpseID}" 
+                        data-field-id="${log.fieldID}" 
+                        data-log-date="${log.log_Date}" 
+                        data-observation="${log.observation}">
+                        ${log.monitoringL_id}
+                    </td>
+                    <td>${log.staffID}</td>
+                    <td>${log.corpseID}</td>
+                    <td>${log.fieldID}</td>
+                    <td>${log.log_Date}</td>
+                    <td>${log.observation}</td>
+                `;
+
+                // Append the row to the table
+                tableBody.appendChild(row);
+            });
+
+            // Add click event to the table rows
+            tableBody.addEventListener("click", function (event) {
+                if (event.target.classList.contains("clickableML")) {
+                    // Extract data attributes from the clicked cell
+                    const monitoringLId = event.target.getAttribute("data-id");
+                    const staffId = event.target.getAttribute("data-staff-id");
+                    const corpseId = event.target.getAttribute("data-corpse-id");
+                    const fieldId = event.target.getAttribute("data-field-id");
+                    const logDateValue = event.target.getAttribute("data-log-date");
+                    const observationText = event.target.getAttribute("data-observation");
+
+                    // Populate the form fields
+                    idLabel.textContent = monitoringLId;
+                    staffIDSelect.value = staffId;
+                    cropsID.value = corpseId;
+                    fieldID.value = fieldId;
+                    logDate.value = logDateValue;
+                    observation.value = observationText;
+
+                    alert(`Selected Log ID: ${monitoringLId}`);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to fetch monitoring logs:", error);
+            alert("Failed to load monitoring logs. Please try again.");
+        }
+    });
+}
+
+populateTableML();
 document.getElementById('addBtn_Ml').addEventListener('click', function () {
     const staffIDSelect = document.getElementById('staffID_Ml').value; // Get the staff dropdown value
     const fieldID = document.getElementById('fieldID_Ml').value; // Get the field dropdown value
@@ -130,6 +210,14 @@ document.getElementById('resetBtn_Ml').addEventListener('click',function (){
     resettext();
 })
 
+document.getElementById('deleteBtn_C').addEventListener('click',function (){
+
+})
+
+document.getElementById('updateBtn_C').addEventListener('click',function (){
+
+})
+
 
 function resettext(){
      document.getElementById('staffID_Ml').value=""; // Get the staff dropdown value
@@ -142,5 +230,4 @@ function resettext(){
     document.getElementById("previewImage3").src="";
 
 }
-
 
