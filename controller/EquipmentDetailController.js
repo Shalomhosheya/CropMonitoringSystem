@@ -20,4 +20,28 @@ document.addEventListener('DOMContentLoaded',function (){
             alert("Failed to load staff data. Please try again.");
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded',function (){
+    const fieldIDropDown = document.getElementById('fieldID_ED');
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field", // API endpoint
+        type: "GET", // HTTP method
+        success: function (response) {
+            console.log("Staff data fetched successfully:", response);
+
+            // Assuming the response is an array of staff objects with 'id' and 'name' properties
+            response.forEach(equipDetail => {
+                const option = document.createElement('option');
+                option.value = equipDetail.fieldID; // Set the value to staff ID
+                option.textContent = `${equipDetail.fieldID} - ${equipDetail.fieldName}`; // Display ID and name
+                fieldIDropDown.appendChild(option); // Add option to the dropdown
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to fetch staff data:", error);
+            alert("Failed to load staff data. Please try again.");
+        }
+    });
 })
+
