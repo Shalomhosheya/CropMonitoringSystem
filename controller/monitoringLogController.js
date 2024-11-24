@@ -240,9 +240,6 @@ document.getElementById('deleteBtn_Ml').addEventListener('click', function () {
     }
 });
 
-document.getElementById('updateBtn_Ml').addEventListener('click',function (){
-    console.log("update Button clicked");
-})
 
 
 function resettext(){
@@ -256,4 +253,6 @@ function resettext(){
     document.getElementById("previewImage3").src="";
 
 }
-
+document.getElementById('updateBtn_Ml').addEventListener('click',function (){
+    console.log("update Button clicked");
+})

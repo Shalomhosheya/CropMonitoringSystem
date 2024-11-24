@@ -49,14 +49,22 @@
           <br>
           <br>
           <br>
-          <!-- Field Name -->
+          <div class="form-group">
+            <label for="logDate_Ml">Date</label>
+            <input type="date" class="form-control" id="logDate_Ml" name="dateInput">
+          </div>
+          <br>
+          <div class="mb-3">
+            <label for="observationDis_Ml" class="form-label">Reason</label>
+            <textarea class="form-control" id="observationDis_Ml" rows="3"></textarea>
+          </div>
 
         </div>
         <br>
-        <button type="button" class="btn btn-primary"id="addBtn_E">ADD</button>
-        <button type="button" class="btn btn-secondary"id="updateBtn_E">UPDATE</button>
-        <button type="button" class="btn btn-success delete"id="deleteBtn_E">DELETE</button>
-        <button type="button" class="btn btn-danger" id="resetBtn_E">RESET</button>
+        <button type="button" class="btn btn-primary"id="addBtn_ED">ADD</button>
+        <button type="button" class="btn btn-secondary"id="updateBtn_ED">UPDATE</button>
+        <button type="button" class="btn btn-success delete"id="deleteBtn_ED">DELETE</button>
+        <button type="button" class="btn btn-danger" id="resetBtn_ED">RESET</button>
       </div>
       <div class="card-body">
         <table class="table table-dark"id="vehicleTable">
