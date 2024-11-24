@@ -99,5 +99,16 @@ document.getElementById('addBtn_ED').addEventListener('click',function (){
         }
     });
 
-
 })
+
+document.getElementById('resetBtn_ED').addEventListener('click',function (){
+    resettext();
+})
+function resettext(){
+    document.getElementById('staffID_ED').value=" ";
+    document.getElementById('fieldID_ED').value=" ";
+    document.getElementById('equipID_ED').value=" ";
+    document.getElementById('logDate_ED').value=" ";
+    document.getElementById('reason_Dis').value=" ";
+    document.getElementById('lbl6').textContent=" ";
+}
