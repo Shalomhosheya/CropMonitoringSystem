@@ -67,3 +67,37 @@ document.addEventListener('DOMContentLoaded',function (){
         }
     });
 })
+
+document.getElementById('addBtn_ED').addEventListener('click',function (){
+    const staffID = document.getElementById('staffID_ED').value;
+    const fieldID = document.getElementById('fieldID_ED').value;
+    const equipID = document.getElementById('equipID_ED').value;
+    const date = document.getElementById('logDate_ED').value;
+    const reason = document.getElementById('reason_Dis').value;
+
+    var formdata = new FormData;
+    formdata.append("staff_id",staffID)
+    formdata.append("fieldID",fieldID)
+    formdata.append("equip_id",equipID)
+    formdata.append("date",date)
+    formdata.append("resone",reason)
+
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details/save", // API endpoint
+        type: "POST", // HTTP method
+        data:formdata,
+        contentType:false,
+        processData:false,
+        success: function (response) {
+            console.log("Equipment detail data fetched successfully:", response);
+            alert("Equipment Detail  added Successfully")
+
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to Send EquipmentDetail data:", error);
+            alert("Failed to Add EquipmentDetail data. Please try again.");
+        }
+    });
+
+
+})
