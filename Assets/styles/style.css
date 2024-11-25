@@ -59,12 +59,7 @@
 .mainContent a {
 	color: #2980b9; /* Blue links for contrast */
 	text-decoration: none;
-	/* Clean link appearance
-
-   }
-      .stylecard:hover {
-	 */
-       transform: scale(1.05); /* Slight zoom-in on hover */
+	transform: scale(1.05); /* Slight zoom-in on hover */
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 

@@ -67,39 +67,82 @@ document.addEventListener('DOMContentLoaded',function (){
         }
     });
 })
+function loadDatatoTable() {
+    const tableBody = document.querySelector("#vehicleTable tbody"); // Get the table body element
 
-document.getElementById('addBtn_ED').addEventListener('click',function (){
-    const staffID = document.getElementById('staffID_ED').value;
-    const fieldID = document.getElementById('fieldID_ED').value;
-    const equipID = document.getElementById('equipID_ED').value;
-    const date = document.getElementById('logDate_ED').value;
-    const reason = document.getElementById('reason_Dis').value;
+    // Clear existing table rows
+    tableBody.innerHTML = "";
 
-    var formdata = new FormData;
-    formdata.append("staff_id",staffID)
-    formdata.append("fieldID",fieldID)
-    formdata.append("equip_id",equipID)
-    formdata.append("date",date)
-    formdata.append("resone",reason)
+    // Fetch data from the API
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details", // API endpoint
+        type: "GET", // HTTP method
+        success: function (response) {
+            console.log("Equipment detail data fetched successfully:", response);
 
+            // Populate table rows dynamically
+            response.forEach(equipDetail => {
+                const row = document.createElement("tr");
+
+                // Create table cells with the fetched data
+                row.innerHTML = `
+                    <td>${equipDetail.equip_detailsID}</td>
+                    <td>${equipDetail.staffID}</td>
+                    <td>${equipDetail.fieldID}</td>
+                    <td>${equipDetail.equip_id}</td>
+                    <td>${equipDetail.date}</td>
+                    <td>${equipDetail.resone}</td>
+                `;
+
+                // Append the row to the table body
+                tableBody.appendChild(row);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to fetch Equipment Detail data:", error);
+            alert("Failed to load Equipment Detail data. Please try again.");
+        }
+    });
+}
+
+// Add Equipment Detail data
+document.getElementById("addBtn_ED").addEventListener("click", function () {
+    const staffID = document.getElementById("staffID_ED").value;
+    const fieldID = document.getElementById("fieldID_ED").value;
+    const equipID = document.getElementById("equipID_ED").value;
+    const date = document.getElementById("logDate_ED").value;
+    const reason = document.getElementById("reason_Dis").value;
+
+    var formdata = new FormData();
+    formdata.append("staff_id", staffID);
+    formdata.append("fieldID", fieldID);
+    formdata.append("equip_id", equipID);
+    formdata.append("date", date);
+    formdata.append("reson", reason); // Corrected the key to 'reason'
+
+    // POST request to save Equipment Detail
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details/save", // API endpoint
         type: "POST", // HTTP method
-        data:formdata,
-        contentType:false,
-        processData:false,
+        data: formdata,
+        contentType: false,
+        processData: false,
         success: function (response) {
-            console.log("Equipment detail data fetched successfully:", response);
-            alert("Equipment Detail  added Successfully")
+            alert("Equipment Detail added Successfully");
+            console.log("Equipment Detail added:", response);
 
+            // Reload the table with updated data
+            loadDatatoTable();
         },
         error: function (xhr, status, error) {
-            console.error("Failed to Send EquipmentDetail data:", error);
-            alert("Failed to Add EquipmentDetail data. Please try again.");
+            console.error("Failed to send Equipment Detail data:", error);
+            alert("Failed to add Equipment Detail data. Please try again.");
         }
     });
+});
 
-})
+// Call the loadDatatoTable function when the page loads
+document.addEventListener("DOMContentLoaded", loadDatatoTable);
 
 document.getElementById('resetBtn_ED').addEventListener('click',function (){
     resettext();
@@ -112,3 +155,7 @@ function resettext(){
     document.getElementById('reason_Dis').value=" ";
     document.getElementById('lbl6').textContent=" ";
 }
+
+document.getElementById('updateBtn_ED').addEventListener('click',function (){
+    const id = document.getElementById('lbl6').textContent;
+})
