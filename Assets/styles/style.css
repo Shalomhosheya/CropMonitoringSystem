@@ -138,6 +138,9 @@ button:hover{
 .clickableMLD:hover{
 	background-color: olive;
 }
+.clickableEquipDetails:hover{
+	background-color: lightseagreen;
+}
 #chk:checked ~ .login{
 	transform: translateY(-500px);
 }

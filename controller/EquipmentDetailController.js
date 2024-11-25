@@ -68,6 +68,13 @@ document.addEventListener('DOMContentLoaded',function (){
     });
 })
 function loadDatatoTable() {
+    const staffID = document.getElementById("staffID_ED");
+    const fieldID = document.getElementById("fieldID_ED");
+    const equipID = document.getElementById("equipID_ED");
+    const date = document.getElementById("logDate_ED");
+    const reason = document.getElementById("reason_Dis");
+    const idLabel = document.getElementById('lbl6');
+
     const tableBody = document.querySelector("#vehicleTable tbody"); // Get the table body element
 
     // Clear existing table rows
@@ -86,13 +93,24 @@ function loadDatatoTable() {
 
                 // Create table cells with the fetched data
                 row.innerHTML = `
-                    <td>${equipDetail.equip_detailsID}</td>
-                    <td>${equipDetail.staffID}</td>
-                    <td>${equipDetail.fieldID}</td>
-                    <td>${equipDetail.equip_id}</td>
-                    <td>${equipDetail.date}</td>
-                    <td>${equipDetail.resone}</td>
+                    <td class="clickableEquipDetails">${equipDetail.equip_detailsID}</td>
+                    <td class="clickableEquipDetails">${equipDetail.staffID}</td>
+                    <td class="clickableEquipDetails">${equipDetail.fieldID}</td>
+                    <td class="clickableEquipDetails">${equipDetail.equip_id}</td>
+                    <td class="clickableEquipDetails">${equipDetail.date}</td>
+                    <td class="clickableEquipDetails">${equipDetail.resone}</td>
                 `;
+
+                // Add a click event to populate fields when a row is clicked
+                row.addEventListener("click", function () {
+                    idLabel.textContent = equipDetail.equip_detailsID;
+                    staffID.value = equipDetail.staffID;
+                    fieldID.value = equipDetail.fieldID;
+                    equipID.value = equipDetail.equip_id;
+                    date.value = equipDetail.date;
+                    reason.value = equipDetail.resone;
+
+                });
 
                 // Append the row to the table body
                 tableBody.appendChild(row);
