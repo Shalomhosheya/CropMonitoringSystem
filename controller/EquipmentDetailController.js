@@ -177,3 +177,22 @@ function resettext(){
 document.getElementById('updateBtn_ED').addEventListener('click',function (){
     const id = document.getElementById('lbl6').textContent;
 })
+document.getElementById('deleteBtn_ED').addEventListener('click',function (){
+    const id = document.getElementById('lbl6').textContent;
+
+    $.ajax({
+        url:`http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details/${id}`,
+        type:"DELETE",
+        success: function (response){
+            console.log("Record deleted successfully:", response);
+            alert(`Record with ID: ${id} has been deleted.`);
+            loadDatatoTable();
+        },
+        error:function (xhr,status,error){
+            console.log("error  "+xhr)
+            console.log("error  "+status)
+            console.log("error  "+error)
+            alert("Failed to delete the data")
+        }
+    })
+})
