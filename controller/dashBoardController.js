@@ -103,4 +103,83 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Failed to load reservation data. Please try again.");
         });
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // Define the API endpoint
+    const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse";
+    const label = document.getElementById('crops'); // Get the label element
 
+    if (!label) {
+        console.warn("Element with ID 'crops' not found. Please ensure the HTML is correct.");
+        return;
+    }
+
+    // Fetch crop data
+    fetch(apiEndpoint, {
+        method: "GET",
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log("Crop data fetched successfully:", data);
+
+            // Ensure the response is an array
+            if (!Array.isArray(data)) {
+                throw new Error("Unexpected response format: Expected an array of crops.");
+            }
+
+            // Count the number of crops
+            const cropCount = data.length;
+
+            // Update the label with the crop count
+            label.textContent = cropCount;
+            console.log(`Crop count updated to ${cropCount} in the DOM.`);
+        })
+        .catch(error => {
+            console.error("Failed to fetch crop data:", error);
+            alert("Failed to load crop data. Please try again.");
+        });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // Define the API endpoint
+    const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment";
+    const labelEq = document.getElementById('equip'); // Get the label element
+
+    if (!labelEq) {
+        console.warn("Element with ID 'equip' not found. Please ensure the HTML is correct.");
+        return;
+    }
+
+    // Fetch equipment data
+    fetch(apiEndpoint, {
+        method: "GET",
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log("Equipment data fetched successfully:", data);
+
+            // Ensure the response is an array
+            if (!Array.isArray(data)) {
+                throw new Error("Unexpected response format: Expected an array of equipment.");
+            }
+
+            // Count the number of equipment
+            const equipmentCount = data.length;
+
+            // Update the label with the equipment count
+            labelEq.textContent = equipmentCount;
+            console.log(`Equipment count updated to ${equipmentCount} in the DOM.`);
+        })
+        .catch(error => {
+            console.error("Failed to fetch equipment data:", error);
+            alert("Failed to load equipment data. Please try again.");
+        });
+});
