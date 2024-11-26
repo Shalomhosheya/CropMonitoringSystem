@@ -57,3 +57,50 @@ document.addEventListener("DOMContentLoaded", function () {
     // Call the function to update the staff count
     updateStaffCount();
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch reservation data from the API
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
+        method: "GET",
+    })
+        .then(response => {
+            // Check if the response is okay
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log("Reservation data fetched successfully:", data);
+
+            // Ensure data is an array
+            if (!Array.isArray(data)) {
+                throw new Error("Unexpected response format: Expected an array of reservations.");
+            }
+
+            // Filter reservations with status "available"
+            const availableReservations = data.filter(reservation => reservation.response === "available");
+
+            // Calculate the count of "available" reservations
+            const reservationCount = availableReservations.length;
+
+            // Log the count to verify
+            console.log(`Available reservation count: ${reservationCount}`);
+
+            // Select the element where the count will be displayed
+            const reservationCountElement = document.querySelector(".overview-box p");
+            const res = document.getElementById("reservation");
+
+            if (reservationCountElement) {
+                // Update the count in the element
+                res.textContent = reservationCount;
+                console.log("Available reservation count updated in the DOM.");
+            } else {
+                console.warn("Count element not found. Ensure the HTML structure is correct.");
+            }
+        })
+        .catch(error => {
+            console.error("Failed to fetch reservation data:", error);
+            alert("Failed to load reservation data. Please try again.");
+        });
+});
+
