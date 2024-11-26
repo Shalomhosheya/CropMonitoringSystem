@@ -183,3 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Failed to load equipment data. Please try again.");
         });
 });
+document.addEventListener('DOMContentLoaded',function (){
+    const lab = document.getElementById('vehicle')
+//http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle
+})
