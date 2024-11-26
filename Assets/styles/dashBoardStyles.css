@@ -138,6 +138,57 @@
 .equip_table:hover{
     background-color: #f5a623;
 }
+.anim1 {
+    text-align: center;
+    animation: fadeSlideIn 1.5s ease-in-out both;
+    opacity: 0; /* Initially hidden */
+}
+
+.anim1 h1 {
+    font-size: 2.5rem;
+    color: #3498db;
+    animation: textZoomIn 1.5s ease-in-out both;
+}
+
+.anim1 p {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-top: 0.5rem;
+    animation: fadeIn 2s ease-in both 0.5s;
+}
+
+/* Keyframes for animations */
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes textZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .hamburger {
