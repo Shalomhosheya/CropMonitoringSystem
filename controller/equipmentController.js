@@ -36,6 +36,9 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
     const type = document.getElementById('type_E').value;
     const status = document.getElementById('status_E').value;
 
+    // Set the Bearer token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMxNTQ5NTl9.VfiY-ntr-a-iTvzFbNuLe4CjXKrNSUQ--b1zxCU1QSc";
+
     console.log("Adding Equipment:", { equipName, type, status });
 
     const formdata = new FormData();
@@ -50,6 +53,9 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
         data: formdata,
         contentType: false,
         processData: false,
+        headers: {
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        },
         success: function (response) {
             alert("Added equipment successfully");
             console.log("Response from POST:", response);
@@ -66,6 +72,7 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
         }
     });
 });
+
 
 function fetchdata() {
     const storedData = localStorage.getItem("equipmentData");

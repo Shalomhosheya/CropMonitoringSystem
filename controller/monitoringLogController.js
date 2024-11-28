@@ -195,6 +195,7 @@ document.getElementById('addBtn_Ml').addEventListener('click', function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog/save",
         type: "POST",
         data: formData,
+
         processData: false, // Don't process the data (important for FormData)
         contentType: false, // Let the browser set the content type, including the boundary
         success: function (response) {

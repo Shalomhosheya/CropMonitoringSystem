@@ -26,10 +26,8 @@ hamburger.addEventListener('click', () => {
 document.getElementById('logoutBtn').addEventListener('click',function (){
     window.location.href="../index.html"
 });
-/*
 document.getElementById("member");//add get request of staff and count the member and add to the member text content//
 //http://localhost:5050/backendCropMonitoringSystem/api/v1/staff
-*/
 
 document.addEventListener("DOMContentLoaded", function () {
     // Function to fetch staff data and update the member count
@@ -58,9 +56,16 @@ document.addEventListener("DOMContentLoaded", function () {
     updateStaffCount();
 });
 document.addEventListener('DOMContentLoaded', function () {
+    // The Bearer token string
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMxNTQ5NTl9.VfiY-ntr-a-iTvzFbNuLe4CjXKrNSUQ--b1zxCU1QSc";
+
     // Fetch reservation data from the API
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
         method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, // Add the Authorization header
+            "Content-Type": "application/json" // Optional, ensures JSON communication
+        }
     })
         .then(response => {
             // Check if the response is okay
@@ -87,15 +92,14 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(`Available reservation count: ${reservationCount}`);
 
             // Select the element where the count will be displayed
-            const reservationCountElement = document.querySelector(".overview-box p");
             const res = document.getElementById("reservation");
 
-            if (reservationCountElement) {
+            if (res) {
                 // Update the count in the element
                 res.textContent = reservationCount;
                 console.log("Available reservation count updated in the DOM.");
             } else {
-                console.warn("Count element not found. Ensure the HTML structure is correct.");
+                console.warn("Reservation count element not found. Ensure the HTML structure is correct.");
             }
         })
         .catch(error => {
@@ -183,7 +187,43 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Failed to load equipment data. Please try again.");
         });
 });
-document.addEventListener('DOMContentLoaded',function (){
-    const lab = document.getElementById('vehicle')
-//http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle
-})
+document.addEventListener('DOMContentLoaded', function () {
+    // Define the API endpoint for vehicles
+    const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle";
+    const labelVehicle = document.getElementById('vehicle'); // Get the label element for vehicle count
+
+    if (!labelVehicle) {
+        console.warn("Element with ID 'vehicle' not found. Please ensure the HTML is correct.");
+        return;
+    }
+
+    // Fetch vehicle data
+    fetch(apiEndpoint, {
+        method: "GET",
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(data => {
+            console.log("Vehicle data fetched successfully:", data);
+
+            // Ensure the response is an array
+            if (!Array.isArray(data)) {
+                throw new Error("Unexpected response format: Expected an array of vehicles.");
+            }
+
+            // Count the number of vehicles
+            const vehicleCount = data.length;
+
+            // Update the label with the vehicle count
+            labelVehicle.textContent = vehicleCount;
+            console.log(`Vehicle count updated to ${vehicleCount} in the DOM.`);
+        })
+        .catch(error => {
+            console.error("Failed to fetch vehicle data:", error);
+            alert("Failed to load vehicle data. Please try again.");
+        });
+});
