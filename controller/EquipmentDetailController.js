@@ -96,7 +96,7 @@ function loadDatatoTable() {
                     <td class="clickableEquipDetails">${equipDetail.equip_detailsID}</td>
                     <td class="clickableEquipDetails">${equipDetail.staffID}</td>
                     <td class="clickableEquipDetails">${equipDetail.fieldID}</td>
-                    <td class="clickableEquipDetails">${equipDetail.equip_id}</td>
+                    <td class="clickableEquipDetails">${equipDetail.equip_detailsID}</td>
                     <td class="clickableEquipDetails">${equipDetail.date}</td>
                     <td class="clickableEquipDetails">${equipDetail.resone}</td>
                 `;

@@ -37,17 +37,17 @@ function populateTablestaff(staffData) {
                 <td class="clickableField">${field.firstName}</td>
                 <td class="clickableField">${field.lastName}</td>
                 <td class="clickableField">${field.designation}</td>
-                <td class="clickableField">${field.gender}</td>
-                <td class="clickableField">${field.join_Date}</td>
-                <td class="clickableField">${field.DOB}</td>
+                <td class="clickableField">${field.gender}</td>       
                 <td class="clickableField">${field.address1}</td>
                 <td class="clickableField">${field.address2}</td>
                 <td class="clickableField">${field.address3}</td>
                 <td class="clickableField">${field.address4}</td>
                 <td class="clickableField">${field.address5}</td>
+                <td class="clickableField">${field.joinDate}</td>
+                <td class="clickableField">${field.DOB}</td>
+                <td class="clickableField">${field.role}</td>
                 <td class="clickableField">${field.contactNum}</td>
                 <td class="clickableField">${field.email}</td>
-                <td class="clickableField">${field.role}</td>
                 <td class="clickableField">${field.field}</td>
             </tr>
         `;
@@ -124,18 +124,18 @@ function fetchDataAndDisplay() {
                 staffID: staff.staffID,
                 firstName: staff.firstName,
                 lastName: staff.lastName,
-                designation: staff.designation,
-                gender: staff.gender,
-                joinDate: staff.join_Date,
+                designation: staff.designitation,
+                gender1: staff.gender,
+                address1: staff.address_1,
+                address2: staff.address_2,
+                address3: staff.address_3,
+                address4: staff.address_4,
+                address5: staff.address_5,
+                joinDate: staff.joinDate,
                 DOB: staff.DOB,
-                address1: staff.address1,
-                address2: staff.address2,
-                address3: staff.address3,
-                address4: staff.address4,
-                address5: staff.address5,
+                role: staff.role,
                 contactNum: staff.contactNum,
                 email: staff.email,
-                role: staff.role,
                 field: staff.field
             }));
 
