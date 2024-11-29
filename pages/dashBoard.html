@@ -41,7 +41,7 @@
     <header class="content-header anim1">
       <br>
       <br>
-      <h1>Welcome to  Dashboard</h1>
+      <h1>Welcome to  Green Shadow🍏</h1>
       <p>Data and manage your settings here.</p>
     </header>
     <br>
@@ -54,7 +54,7 @@
       </div>
       <div class="overview-box">
         <h3>Active Reservation</h3>
-        <p id="reservation"></p> <!-- The count will be dynamically updated here -->
+        <p id="reservation"></p>
       </div>
       <div class="overview-box">
         <h3>Total Crops</h3>
@@ -66,18 +66,24 @@
       </div>
       <div class="overview-box">
         <h3>Vehicle Availabilty</h3>
-        <p id="vehicle"></p>
+       <p id="vehicle"></p>  <!--  //numbers add up to here example as 5,6 create piechart graph-->
       </div>
     </section>
+
 
     <section class="content-data anim1">
       <h2>Recent Activity</h2>
       <p>This section can be used for charts, recent data entries, and other analytics.</p>
       <!-- Add more data components here -->
+      <div class="piechart_space">
+        <canvas id="overviewPieChart"></canvas>
+      </div>
+
     </section>
   </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../controller/dashBoardController.js">
 </script>
 <!--<script src="controller/js/jquery-1.11.3.min.js"></script>-->

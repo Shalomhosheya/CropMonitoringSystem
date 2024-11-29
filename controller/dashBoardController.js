@@ -30,9 +30,17 @@ document.getElementById("member");//add get request of staff and count the membe
 //http://localhost:5050/backendCropMonitoringSystem/api/v1/staff
 
 document.addEventListener("DOMContentLoaded", function () {
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMyMjI4NDB9.sDfxAJjt-3JuEx5EY2aai927sEqOOE8tnXF-kZZxOo0";
+
     // Function to fetch staff data and update the member count
     function updateStaffCount() {
-        fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff")
+        fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff", {
+            method: "GET", // HTTP method
+            headers: {
+                "Authorization": `Bearer ${token}`, // Include the token in the Authorization header
+                "Content-Type": "application/json", // Optional: Specify content type
+            }
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -55,9 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Call the function to update the staff count
     updateStaffCount();
 });
+
 document.addEventListener('DOMContentLoaded', function () {
     // The Bearer token string
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMxNTQ5NTl9.VfiY-ntr-a-iTvzFbNuLe4CjXKrNSUQ--b1zxCU1QSc";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMyMjI4NDB9.sDfxAJjt-3JuEx5EY2aai927sEqOOE8tnXF-kZZxOo0";
 
     // Fetch reservation data from the API
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
@@ -108,122 +117,264 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 document.addEventListener('DOMContentLoaded', function () {
-    // Define the API endpoint
-    const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse";
-    const label = document.getElementById('crops'); // Get the label element
+    // Define the Bearer token
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMyMjI4NDB9.sDfxAJjt-3JuEx5EY2aai927sEqOOE8tnXF-kZZxOo0";
 
-    if (!label) {
-        console.warn("Element with ID 'crops' not found. Please ensure the HTML is correct.");
-        return;
+    // Function to fetch crop data
+    function fetchCrops() {
+        const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse";
+        const label = document.getElementById('crops');
+
+        if (!label) {
+            console.warn("Element with ID 'crops' not found. Please ensure the HTML is correct.");
+            return;
+        }
+
+        fetch(apiEndpoint, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("Unexpected response format: Expected an array of crops.");
+                }
+                label.textContent = data.length;
+            })
+            .catch(error => {
+                console.error("Failed to fetch crop data:", error);
+                alert("Failed to load crop data. Please try again.");
+            });
     }
 
-    // Fetch crop data
-    fetch(apiEndpoint, {
-        method: "GET",
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    // Function to fetch equipment data
+    function fetchEquipment() {
+        const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment";
+        const labelEq = document.getElementById('equip');
+
+        if (!labelEq) {
+            console.warn("Element with ID 'equip' not found. Please ensure the HTML is correct.");
+            return;
+        }
+
+        fetch(apiEndpoint, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             }
-            return response.json(); // Parse the response as JSON
         })
-        .then(data => {
-            console.log("Crop data fetched successfully:", data);
-
-            // Ensure the response is an array
-            if (!Array.isArray(data)) {
-                throw new Error("Unexpected response format: Expected an array of crops.");
-            }
-
-            // Count the number of crops
-            const cropCount = data.length;
-
-            // Update the label with the crop count
-            label.textContent = cropCount;
-            console.log(`Crop count updated to ${cropCount} in the DOM.`);
-        })
-        .catch(error => {
-            console.error("Failed to fetch crop data:", error);
-            alert("Failed to load crop data. Please try again.");
-        });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    // Define the API endpoint
-    const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment";
-    const labelEq = document.getElementById('equip'); // Get the label element
-
-    if (!labelEq) {
-        console.warn("Element with ID 'equip' not found. Please ensure the HTML is correct.");
-        return;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("Unexpected response format: Expected an array of equipment.");
+                }
+                labelEq.textContent = data.length;
+            })
+            .catch(error => {
+                console.error("Failed to fetch equipment data:", error);
+                alert("Failed to load equipment data. Please try again.");
+            });
     }
 
-    // Fetch equipment data
-    fetch(apiEndpoint, {
-        method: "GET",
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    // Function to fetch vehicle data
+    function fetchVehicles() {
+        const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle";
+        const labelVehicle = document.getElementById('vehicle');
+
+        if (!labelVehicle) {
+            console.warn("Element with ID 'vehicle' not found. Please ensure the HTML is correct.");
+            return;
+        }
+
+        fetch(apiEndpoint, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             }
-            return response.json(); // Parse the response as JSON
         })
-        .then(data => {
-            console.log("Equipment data fetched successfully:", data);
-
-            // Ensure the response is an array
-            if (!Array.isArray(data)) {
-                throw new Error("Unexpected response format: Expected an array of equipment.");
-            }
-
-            // Count the number of equipment
-            const equipmentCount = data.length;
-
-            // Update the label with the equipment count
-            labelEq.textContent = equipmentCount;
-            console.log(`Equipment count updated to ${equipmentCount} in the DOM.`);
-        })
-        .catch(error => {
-            console.error("Failed to fetch equipment data:", error);
-            alert("Failed to load equipment data. Please try again.");
-        });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    // Define the API endpoint for vehicles
-    const apiEndpoint = "http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle";
-    const labelVehicle = document.getElementById('vehicle'); // Get the label element for vehicle count
-
-    if (!labelVehicle) {
-        console.warn("Element with ID 'vehicle' not found. Please ensure the HTML is correct.");
-        return;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("Unexpected response format: Expected an array of vehicles.");
+                }
+                labelVehicle.textContent = data.length;
+            })
+            .catch(error => {
+                console.error("Failed to fetch vehicle data:", error);
+                alert("Failed to load vehicle data. Please try again.");
+            });
     }
 
-    // Fetch vehicle data
-    fetch(apiEndpoint, {
-        method: "GET",
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json(); // Parse the response as JSON
-        })
-        .then(data => {
-            console.log("Vehicle data fetched successfully:", data);
-
-            // Ensure the response is an array
-            if (!Array.isArray(data)) {
-                throw new Error("Unexpected response format: Expected an array of vehicles.");
-            }
-
-            // Count the number of vehicles
-            const vehicleCount = data.length;
-
-            // Update the label with the vehicle count
-            labelVehicle.textContent = vehicleCount;
-            console.log(`Vehicle count updated to ${vehicleCount} in the DOM.`);
-        })
-        .catch(error => {
-            console.error("Failed to fetch vehicle data:", error);
-            alert("Failed to load vehicle data. Please try again.");
-        });
+    // Fetch data for crops, equipment, and vehicles
+    fetchCrops();
+    fetchEquipment();
+    fetchVehicles();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Define the canvas context
+    const pieChartCtx = document.getElementById('overviewPieChart').getContext('2d');
+
+    // Function to fetch data and render the pie chart
+    const fetchDataAndRenderPieChart = async () => {
+        try {
+            // Fetch data from your API endpoints
+            const [staff, reservation, crops, equipment, vehicles] = await Promise.all([
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff").then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion").then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse").then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment").then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle").then(res => res.json()),
+            ]);
+
+            // Update numbers in the DOM
+            document.getElementById('member').textContent = staff.length;
+            document.getElementById('reservation').textContent = reservation.length;
+            document.getElementById('crops').textContent = crops.length;
+            document.getElementById('equip').textContent = equipment.length;
+            document.getElementById('vehicle').textContent = vehicles.length;
+
+            // Prepare data for the pie chart
+            const chartData = {
+                labels: ['Total Staff', 'Active Reservation', 'Total Crops', 'Equipment', 'Vehicles'],
+                datasets: [{
+                    data: [staff.length, reservation.length, crops.length, equipment.length, vehicles.length],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)', // Red
+                        'rgba(54, 162, 235, 0.6)', // Blue
+                        'rgba(255, 206, 86, 0.6)', // Yellow
+                        'rgba(75, 192, 192, 0.6)', // Green
+                        'rgba(153, 102, 255, 0.6)'  // Purple
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Create the pie chart
+            new Chart(pieChartCtx, {
+                type: 'pie',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Overview of Dashboard Data'
+                        }
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error("Error fetching data or rendering pie chart:", error);
+        }
+    };
+
+    fetchDataAndRenderPieChart();
+
+
+});
+new Chart(pieChartCtx, {
+    type: 'pie',
+    data: chartData,
+    options: {
+        responsive: false, // Turn off responsiveness for precise control
+        maintainAspectRatio: true,
+    }
+});
+
+// Set canvas size programmatically if needed
+const canvas = document.getElementById('overviewPieChart');
+canvas.width = 250;
+canvas.height = 250;
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const createBarChart = (ctx, label, value) => {
+//         new Chart(ctx, {
+//             type: "bar",
+//             data: {
+//                 labels: [label],
+//                 datasets: [{
+//                     label: `${label} Count`,
+//                     data: [value],
+//                     backgroundColor: ["rgba(75, 192, 192, 0.6)"],
+//                     borderColor: ["rgba(75, 192, 192, 1)"],
+//                     borderWidth: 1,
+//                 }],
+//             },
+//             options: {
+//                 responsive: true,
+//                 scales: {
+//                     y: {
+//                         beginAtZero: true,
+//                         ticks: {
+//                             stepSize: 1,
+//                         },
+//                     },
+//                 },
+//             },
+//         });
+//     };
+//
+//     // Fetch data and populate graphs
+//     const fetchDataAndRenderGraphs = async () => {
+//         try {
+//             const [staff, reservation, crops, equipment, vehicles] = await Promise.all([
+//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff").then(res => res.json()),
+//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion").then(res => res.json()),
+//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse").then(res => res.json()),
+//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment").then(res => res.json()),
+//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle").then(res => res.json()),
+//             ]);
+//
+//             // Update counts in DOM
+//             document.getElementById("member").textContent = staff.length;
+//             document.getElementById("reservation").textContent = reservation.length;
+//             document.getElementById("crops").textContent = crops.length;
+//             document.getElementById("equip").textContent = equipment.length;
+//             document.getElementById("vehicle").textContent = vehicles.length;
+//
+//             // Render charts
+//             createBarChart(document.getElementById("staffChart"), "Total Staff", staff.length);
+//             createBarChart(document.getElementById("reservationChart"), "Active Reservations", reservation.length);
+//             createBarChart(document.getElementById("cropsChart"), "Total Crops", crops.length);
+//             createBarChart(document.getElementById("equipmentChart"), "Equipment", equipment.length);
+//             createBarChart(document.getElementById("vehicleChart"), "Vehicles", vehicles.length);
+//
+//         } catch (error) {
+//             console.error("Error fetching data:", error);
+//         }
+//     };
+//
+//     fetchDataAndRenderGraphs();
+// });
