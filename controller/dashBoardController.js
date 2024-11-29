@@ -304,6 +304,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
+
+/*
+const pieChartCanvas = document.getElementById('overviewPieChart');
+const pieChartCtx = pieChartCanvas.getContext('2d'); // Get the 2D context
+
 new Chart(pieChartCtx, {
     type: 'pie',
     data: chartData,
@@ -311,70 +317,9 @@ new Chart(pieChartCtx, {
         responsive: false, // Turn off responsiveness for precise control
         maintainAspectRatio: true,
     }
-});
+});*/
 
 // Set canvas size programmatically if needed
 const canvas = document.getElementById('overviewPieChart');
 canvas.width = 250;
 canvas.height = 250;
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     const createBarChart = (ctx, label, value) => {
-//         new Chart(ctx, {
-//             type: "bar",
-//             data: {
-//                 labels: [label],
-//                 datasets: [{
-//                     label: `${label} Count`,
-//                     data: [value],
-//                     backgroundColor: ["rgba(75, 192, 192, 0.6)"],
-//                     borderColor: ["rgba(75, 192, 192, 1)"],
-//                     borderWidth: 1,
-//                 }],
-//             },
-//             options: {
-//                 responsive: true,
-//                 scales: {
-//                     y: {
-//                         beginAtZero: true,
-//                         ticks: {
-//                             stepSize: 1,
-//                         },
-//                     },
-//                 },
-//             },
-//         });
-//     };
-//
-//     // Fetch data and populate graphs
-//     const fetchDataAndRenderGraphs = async () => {
-//         try {
-//             const [staff, reservation, crops, equipment, vehicles] = await Promise.all([
-//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff").then(res => res.json()),
-//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion").then(res => res.json()),
-//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse").then(res => res.json()),
-//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment").then(res => res.json()),
-//                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle").then(res => res.json()),
-//             ]);
-//
-//             // Update counts in DOM
-//             document.getElementById("member").textContent = staff.length;
-//             document.getElementById("reservation").textContent = reservation.length;
-//             document.getElementById("crops").textContent = crops.length;
-//             document.getElementById("equip").textContent = equipment.length;
-//             document.getElementById("vehicle").textContent = vehicles.length;
-//
-//             // Render charts
-//             createBarChart(document.getElementById("staffChart"), "Total Staff", staff.length);
-//             createBarChart(document.getElementById("reservationChart"), "Active Reservations", reservation.length);
-//             createBarChart(document.getElementById("cropsChart"), "Total Crops", crops.length);
-//             createBarChart(document.getElementById("equipmentChart"), "Equipment", equipment.length);
-//             createBarChart(document.getElementById("vehicleChart"), "Vehicles", vehicles.length);
-//
-//         } catch (error) {
-//             console.error("Error fetching data:", error);
-//         }
-//     };
-//
-//     fetchDataAndRenderGraphs();
-// });
