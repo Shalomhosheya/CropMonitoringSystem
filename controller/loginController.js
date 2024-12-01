@@ -34,3 +34,7 @@ document.getElementById("signInBTN").addEventListener('click',function (){
     window.location.href="../pages/dashBoard.html"//only the html opens not the styles
 
 })
+
+document.addEventListener('DOMContentLoaded',function (){
+
+})
