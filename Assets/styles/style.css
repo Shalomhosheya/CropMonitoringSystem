@@ -81,18 +81,28 @@
 	cursor: pointer;
 	transition: .5s ease-in-out;
 }
-.field{
+.field {
 	width: 60%;
-	height: 20px;
+	height: 40px; /* Increased height for better visibility */
 	background: #e0dede;
-	justify-content: center;
 	display: flex;
-	margin: 20px auto;
+	margin: 10px auto;
 	padding: 10px;
 	border: none;
 	outline: none;
 	border-radius: 5px;
+	font-size: 16px; /* Adjusted font size */
+	color: #333; /* Text color */
 }
+
+.field option {
+	color: #333; /* Ensure dropdown options are visible */
+}
+
+.field:focus {
+	border: 1px solid #7db9e8; /* Add focus style for better UX */
+}
+
 .button1{
 	width: 60%;
 	height: 40px;

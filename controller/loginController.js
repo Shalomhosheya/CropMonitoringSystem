@@ -35,6 +35,19 @@ document.getElementById("signInBTN").addEventListener('click',function (){
 
 })
 
-document.addEventListener('DOMContentLoaded',function (){
+document.addEventListener('DOMContentLoaded', function () {
+    const array = ["MANAGER", "ADMINISTRATIVE", "SCIENTIST", "USER"];
+    const selectElement = document.getElementById('roleselect');
 
-})
+    if (selectElement) {
+        // Dynamically create and append options
+        array.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.toLowerCase(); // Use lowercase as the value
+            option.textContent = role; // Use the role name as the display text
+            selectElement.appendChild(option);
+        });
+    } else {
+        console.error("Select element with ID 'roleselect' not found.");
+    }
+});
