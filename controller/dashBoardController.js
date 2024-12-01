@@ -30,7 +30,7 @@ document.getElementById("member");//add get request of staff and count the membe
 //http://localhost:5050/backendCropMonitoringSystem/api/v1/staff
 
 document.addEventListener("DOMContentLoaded", function () {
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMyMjI4NDB9.sDfxAJjt-3JuEx5EY2aai927sEqOOE8tnXF-kZZxOo0";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNDM0MDc0fQ.gzZLrUzFCiNnrXGRLVCYF0JE102puATvazvkCHENnG8";
 
     // Function to fetch staff data and update the member count
     function updateStaffCount() {
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     // The Bearer token string
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMyMjI4NDB9.sDfxAJjt-3JuEx5EY2aai927sEqOOE8tnXF-kZZxOo0";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNDM0MDc0fQ.gzZLrUzFCiNnrXGRLVCYF0JE102puATvazvkCHENnG8";
 
     // Fetch reservation data from the API
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.addEventListener('DOMContentLoaded', function () {
     // Define the Bearer token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMyMjI4NDB9.sDfxAJjt-3JuEx5EY2aai927sEqOOE8tnXF-kZZxOo0";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNDM0MDc0fQ.gzZLrUzFCiNnrXGRLVCYF0JE102puATvazvkCHENnG8";
 
     // Function to fetch crop data
     function fetchCrops() {
