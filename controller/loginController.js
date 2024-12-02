@@ -22,8 +22,13 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error("Select element with ID 'roleselect' not found.");
     }
 });
- document.getElementById('signUPBtn').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent form from submitting normally
+ 
+
+
+
+
+document.getElementById('signUPBtn').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent form submission
 
     var firstname = document.getElementById('usernameText').value;
     var lastname = document.getElementById('lastname').value;
@@ -31,7 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var email = document.getElementById('emailText').value;
     var password = document.getElementById('passwordtext').value;
 
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiaWF0IjoxNzMzMTI3MDgyLCJleHAiOjE3MzM0ODcwODJ9.UCZrrefdBRYGOVMRqoNUnJHP2-UBMqNZ7_XjkG2IxcU" //save the token to the local storage
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiaWF0IjoxNzMzMTI3MDgyLCJleHAiOjE3MzM0ODcwODJ9.UCZrrefdBRYGOVMRqoNUnJHP2-UBMqNZ7_XjkG2IxcU";
+
     // Create FormData object
     const formData = new FormData();
     formData.append('firstName', firstname);
@@ -40,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     formData.append('email', email);
     formData.append('password', password);
 
-    // AJAX request using FormData
+    // AJAX request
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/auth/signup",
         method: 'POST',
@@ -49,10 +55,11 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         data: formData,
         processData: false, // Prevent jQuery from automatically processing the data
-        contentType: false, // Tell jQuery not to set Content-Type header
+        contentType: false, // Prevent jQuery from setting Content-Type header
         success: function (response) {
             console.log('Account created successfully:', response);
             alert('Account created successfully');
+            localStorage.setItem('token', token); // Save token
         },
         error: function (xhr, status, error) {
             console.error('Error creating Account:', error);
@@ -61,12 +68,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.getElementById('signInBTN').addEventListener('click', function () {
+    event.preventDefault(); // Prevent form submission
 
-document.getElementById('signInBTN').addEventListener('click', function(){
-    var email = document.getElementById('emailText2').value; 
-    var password = document.getElementById('passwordtext2').value; 
+    var email = document.getElementById('emailText2').value;
+    var password = document.getElementById('passwordtext2').value;
 
-    const token = //get the token from the local storage and set it
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
-    $.ajax()
-})
+    $.ajax({
+        url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/auth/signin",
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        data: {
+            email: email,
+            password: password
+        },
+        success: function (response) {
+            console.log('Logged in successfully:', response);
+            alert('Logged in successfully');
+            localStorage.setItem('token', response.token); // Save the new token
+            window.location.href = "../pages/dashBoard.html"; // Navigate to the dashboard
+        },
+        error: function (xhr, status, error) {
+            console.error('Error logging in:', error);
+            alert('Error logging in');
+        }
+    });
+});
