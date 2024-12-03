@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     const cropsID = document.getElementById('cropID_Ml'); // Get the crops dropdown element
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
+  
     // Fetch crops data
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse", // API endpoint
@@ -105,7 +107,9 @@ function populateTableML() {
     const observation = document.getElementById('observationDis_Ml'); // Observation input
     const observationImageInput = document.getElementById('image_Ml'); // Image input
     const idLabel = document.getElementById('lbl5'); // Label for the ID
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
+  
     // Fetch monitoring logs data using Fetch API
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog")
         .then((response) => {
@@ -184,7 +188,9 @@ document.getElementById('addBtn_Ml').addEventListener('click', function () {
     const logDate = document.getElementById('logDate_Ml').value; // Get the log date
     const observation = document.getElementById('observationDis_Ml').value; // Get the observation text
     const observationImageInput = document.getElementById('image_Ml'); // Get the image input element
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
+  
     // Check if the image input is not empty and get the file
     let observationImage = null;
     if (observationImageInput && observationImageInput.files.length > 0) {
@@ -229,7 +235,9 @@ document.getElementById('resetBtn_Ml').addEventListener('click',function (){
 
 document.getElementById('deleteBtn_Ml').addEventListener('click', function () {
     const idLabel = document.getElementById('lbl5').textContent; // Get the ID from the label
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
+  
     // Confirm the deletion
     if (!idLabel) {
         alert("No record selected to delete.");
@@ -242,6 +250,9 @@ document.getElementById('deleteBtn_Ml').addEventListener('click', function () {
         $.ajax({
             url: `http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog/${idLabel}`, // Endpoint to delete the record
             type: "DELETE", // HTTP DELETE method
+            headers: {
+            'Authorization': 'Bearer'+ token // Add the token to the headers
+            },
             success: function (response) {
                 console.log("Record deleted successfully:", response);
                 alert(`Record with ID: ${idLabel} has been deleted.`);
