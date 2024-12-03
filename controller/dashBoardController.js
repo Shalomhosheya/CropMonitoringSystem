@@ -30,7 +30,7 @@ document.getElementById("member");//add get request of staff and count the membe
 //http://localhost:5050/backendCropMonitoringSystem/api/v1/staff
 
 document.addEventListener("DOMContentLoaded", function () {
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNDM0MDc0fQ.gzZLrUzFCiNnrXGRLVCYF0JE102puATvazvkCHENnG8";
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
     // Function to fetch staff data and update the member count
     function updateStaffCount() {
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     // The Bearer token string
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNDM0MDc0fQ.gzZLrUzFCiNnrXGRLVCYF0JE102puATvazvkCHENnG8";
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
     // Fetch reservation data from the API
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.addEventListener('DOMContentLoaded', function () {
     // Define the Bearer token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNDM0MDc0fQ.gzZLrUzFCiNnrXGRLVCYF0JE102puATvazvkCHENnG8";
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
     // Function to fetch crop data
     function fetchCrops() {
@@ -230,21 +230,36 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchEquipment();
     fetchVehicles();
 });
-
 document.addEventListener("DOMContentLoaded", function () {
     // Define the canvas context
     const pieChartCtx = document.getElementById('overviewPieChart').getContext('2d');
 
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     // Function to fetch data and render the pie chart
     const fetchDataAndRenderPieChart = async () => {
         try {
-            // Fetch data from your API endpoints
+            if (!token) {
+                throw new Error("Token not found. Please log in.");
+            }
+
+            // Fetch data from your API endpoints with headers
             const [staff, reservation, crops, equipment, vehicles] = await Promise.all([
-                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff").then(res => res.json()),
-                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion").then(res => res.json()),
-                fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse").then(res => res.json()),
-                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment").then(res => res.json()),
-                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle").then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff", {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse", {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment", {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).then(res => res.json()),
+                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle", {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).then(res => res.json()),
             ]);
 
             // Update numbers in the DOM
@@ -297,13 +312,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (error) {
             console.error("Error fetching data or rendering pie chart:", error);
+            alert("An error occurred: " + error.message);
         }
     };
 
     fetchDataAndRenderPieChart();
-
-
 });
+
 
 
 /*
