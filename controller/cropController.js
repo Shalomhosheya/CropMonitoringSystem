@@ -27,6 +27,8 @@ document.getElementById('addBtn_C').addEventListener('click', function () {
     const cropImage = document.getElementById('inputGroupFile01')?.files[0] || null; // Get the file object
     const cropScientific = document.getElementById('cropScientific_C').value;
     const cropSeason = document.getElementById('cropSeason_C').value;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
 
     console.log(category, commonName, cropImage, cropScientific, cropSeason);
 
@@ -41,6 +43,9 @@ document.getElementById('addBtn_C').addEventListener('click', function () {
     // Send data to the backend
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse/save", {
         method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         body: formData,
     })
         .then(response => {
@@ -69,8 +74,16 @@ function tableAppend() {
     const cropScientific = document.getElementById('cropScientific_C');
     const cropSeason = document.getElementById('cropSeason_C');
     const id = document.getElementById('lbl4');
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     // Send a GET request to fetch the crop data
-    fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse")
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse",{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    }
+        
+    )
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -140,7 +153,7 @@ document.getElementById("updateBtn_C").addEventListener('click', function () {
     const cropScientific = document.getElementById('cropScientific_C').value;
     const cropSeason = document.getElementById('cropSeason_C').value;
     const id = document.getElementById('lbl4').textContent;
-
+    const token = localStorage.getItem('token'); // Get the token from localStorage
     // Create JSON payload
     const payload = {
         common_name: commonName,
@@ -155,6 +168,9 @@ document.getElementById("updateBtn_C").addEventListener('click', function () {
         type: "PUT",
         contentType: "application/json", // Indicate JSON payload
         data: JSON.stringify(payload), // Convert the payload to JSON string
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         success: function (data) {
             console.log("Crop updated successfully:", data);
             alert("Crop updated successfully!");
@@ -170,9 +186,13 @@ document.getElementById("updateBtn_C").addEventListener('click', function () {
 });
 document.getElementById('deleteBtn_C').addEventListener('click',function (){
     const  id =document.getElementById("lbl4").textContent;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
     $.ajax({
         url: `http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse/${encodeURIComponent(id)}`,
         type: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         contentType: "application/json", // Indicate JSON payload
         success: function (data) {
             console.log("Crop removed", data);
