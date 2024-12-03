@@ -73,7 +73,13 @@ function fetchAndDisplayFields() {
         populateTable(storedVehicle);
     }
 
-    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle")
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle",
+        {
+            headers: {
+                "Authorization": `Bearer ${token}` // Include Bearer token
+            }
+        }
+    )
         .then(response => response.json())
         .then(data => {
             const essentialData = data.map(vehicle => ({

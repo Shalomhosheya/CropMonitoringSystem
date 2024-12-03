@@ -68,12 +68,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.addEventListener('DOMContentLoaded',function (){
     const storedVehicle = JSON.parse(localStorage.getItem("vehiclesData"));
-
+    const token = localStorage.getItem("token");
     // if (storedVehicle) {
     //     populateTable(storedVehicle);
     // }
 
-    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle")
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle",{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             const essentialData = data.map(vehicle => ({
