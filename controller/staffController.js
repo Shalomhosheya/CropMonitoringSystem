@@ -116,9 +116,14 @@ const exampleStaff = {
 
 
 function fetchDataAndDisplay() {
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff",
         type: "GET",
+        headers: {
+        Authorization: `Bearer ${token}` // Add the token to the header
+        },
         success: function (response) {
             const essentialData = response.map(staff => ({
                 staffID: staff.staffID,
@@ -162,6 +167,8 @@ document.getElementById('addBtn').addEventListener('click', function () {
     var email = document.getElementById('exampleInputEmail1').value;
     var role = document.getElementById('role').value;
     var field = document.getElementById('field').value;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
 
     // Console log to see all values before sending the request
     console.log({
@@ -204,6 +211,9 @@ document.getElementById('addBtn').addEventListener('click', function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff/save",
         type: "POST",
         data: formData,
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         contentType: false,
         processData: false,
         success: function () {
@@ -265,6 +275,8 @@ document.getElementById('updateBtn').addEventListener('click',function (){
     var email=document.getElementById('exampleInputEmail1').value;
     var role=document.getElementById('role').value;
     var field=document.getElementById('field').value;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
 
     var data = {
         firstname:firstname,
@@ -287,6 +299,9 @@ document.getElementById('updateBtn').addEventListener('click',function (){
     $.ajax({
         url:"",
         type:"POST",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
         data:JSON.stringify(data),
         contentType:"application/json",
         success:function (){
@@ -305,6 +320,8 @@ document.getElementById('deleteBtn2').addEventListener('click', function () {
     console.log("Delete button clicked");  // Check if this log appears in the console
 
     var staffID = document.getElementById("lbl2").textContent.trim();
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     if (!staffID) {
         alert("Please select a field to delete.");
         return;
@@ -313,6 +330,9 @@ document.getElementById('deleteBtn2').addEventListener('click', function () {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff/" + encodeURIComponent(staffID),
         type: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
         contentType: 'application/json',
         success: function (response) {
             console.log("Staff Successfully Deleted", response);

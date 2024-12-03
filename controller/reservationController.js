@@ -19,9 +19,14 @@ document.addEventListener('DOMContentLoaded',function (){
     })
 });
 document.addEventListener('DOMContentLoaded', function () {
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff",
         type: "GET",
+        header: {
+            Authorization: `Bearer ${token}`
+        },
         success: function (response) {
             // Extracting essential data (e.g., staffID and staffName) from the response
             const essentialData = response.map(staff => ({
@@ -113,6 +118,7 @@ document.getElementById("addBtn_R").addEventListener('click',function (){
  const reservedDate = document.getElementById("reservedDate_R").value;
  const response = document.getElementById("responseType_R").value;
  const reservationType = document.getElementById("reservationType_R").value;
+ const token = localStorage.getItem('token'); // Get the token from localStorage
 
     console.log(staffID, vehicleId, reservedDate, response, reservationType);
     var formdata = new FormData;
@@ -125,7 +131,10 @@ document.getElementById("addBtn_R").addEventListener('click',function (){
     $.ajax({
       url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion/save",
       type:"POST",
-        data:formdata,
+      headers: {
+        "Authorization": `Bearer ${token}` // Include Bearer token
+      },
+      data:formdata,
       contentType :false,
       processData: false,
       success : function (){
@@ -152,9 +161,14 @@ function populateTable2() {
     const responseTypeInput = document.getElementById("responseType_R");
     const reservationTypeInput = document.getElementById("reservationType_R");
     const reservationIdLabel = document.getElementById("lbl3");
+    const token = localStorage.getItem('token'); 
+
 
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
-        method: "GET"
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     })
         .then(response => {
             if (!response.ok) {
@@ -232,6 +246,7 @@ document.getElementById('updateBtn_R').addEventListener('click', function () {
     const response = document.getElementById("responseType_R").value;
     const reervationtype = document.getElementById("reservationType_R").value;
     const reservatioID = document.getElementById('lbl3').textContent;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
     // Creating the JSON object
     const jsonData = {
@@ -246,6 +261,10 @@ document.getElementById('updateBtn_R').addEventListener('click', function () {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion/" + encodeURIComponent(reservatioID),
         type: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        },
+        method: "PUT", // Update the method to PUT for HTTP method
         data: JSON.stringify(jsonData), // Convert the object to JSON
         contentType: "application/json", // Specify content type as JSON
         processData: false, // No need to process data
@@ -263,9 +282,14 @@ document.getElementById('updateBtn_R').addEventListener('click', function () {
 });
 document.getElementById('deleteBtn_R').addEventListener('click',function (){
     const reservatioID = document.getElementById('lbl3').textContent;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion/" + encodeURIComponent(reservatioID),
         type: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        },
         contentType: 'application/json',
         success: function (response) {
             console.log("Reservation  Removed", response);

@@ -34,6 +34,8 @@ document.getElementById("addBtnV").addEventListener('click',function (){
     const remarks = document.getElementById("remarksV").value;
     const status = document.getElementById("disabledSelect4").value;
     const licenseNumberPlate = document.getElementById("numberPlateV").value;
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     console.log(vehicleCategory, fuelType, remarks, status, licenseNumberPlate);
     var formData = new FormData;
     formData.append("vehicleCategory",vehicleCategory)
@@ -46,6 +48,9 @@ document.getElementById("addBtnV").addEventListener('click',function (){
         url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle/save",
         type:"POST",
         data: formData,
+        headers: {
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        },
         contentType: false,
         processData: false,
         success: function () {
@@ -62,6 +67,7 @@ document.getElementById("addBtnV").addEventListener('click',function (){
 })
 function fetchAndDisplayFields() {
     const storedVehicle = JSON.parse(localStorage.getItem("vehiclesData"));
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
     if (storedVehicle) {
         populateTable(storedVehicle);
@@ -137,11 +143,15 @@ fetchAndDisplayFields();
 document.getElementById("deleteBtnVvv").addEventListener('click',function (){
     console.log("delete button clicked")
   const vehicleID= document.getElementById('lbl3').textContent.trim();
+  const token = localStorage.getItem('token'); // Get the token from localStorage
 
   $.ajax({
       url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle/"+encodeURIComponent(vehicleID),
       type:"DELETE",
       data: "application/json",
+      header:{
+        'Authorization': 'Bearer'+ token
+      },
       success: function (response) {
           console.log("vehicle Successfully Deleted", response);
           alert("Vehicle  Successfully Removed");
@@ -163,6 +173,8 @@ document.getElementById("updateBtnV").addEventListener('click',function (){
     const licenseNumberPlate = document.getElementById("numberPlateV").value;
 
     const vehicleID= document.getElementById('lbl3').textContent.trim();
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
 
     console.log(vehicleCategory, fuelType, remarks, status, licenseNumberPlate);
 
@@ -176,6 +188,9 @@ document.getElementById("updateBtnV").addEventListener('click',function (){
         url:"http://localhost:5050/backendCropMonitoringSystem/api/v1/vehicle/"+ encodeURIComponent(vehicleID),
         type:"PUT",
         data: formdata,
+        header: {
+        'Authorization': 'Bearer'+ token
+        },
         contentType: false,
         processData: false,
         success: function (response) {

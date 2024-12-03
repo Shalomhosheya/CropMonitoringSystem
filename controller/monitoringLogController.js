@@ -107,77 +107,85 @@ function populateTableML() {
     const observation = document.getElementById('observationDis_Ml'); // Observation input
     const observationImageInput = document.getElementById('image_Ml'); // Image input
     const idLabel = document.getElementById('lbl5'); // Label for the ID
+   
     const token = localStorage.getItem('token'); // Get the token from localStorage
 
-  
-    // Fetch monitoring logs data using Fetch API
-    fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log("Monitoring logs fetched successfully:", data);
+    if (!token) {
+        alert("Token not found. Please log in.");
+        return; // Exit the function if token is not present
+    }
 
-            // Save the response data in local storage
-            localStorage.setItem("monitoringLogs", JSON.stringify(data));
+    // Fetch monitoring logs data using Fetch API with token
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog", {
+        headers: {
+            Authorization: `Bearer ${token}` // Include token in Authorization header
+        }
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
+        console.log("Monitoring logs fetched successfully:", data);
 
-            // Clear any existing table rows
-            tableBody.innerHTML = "";
+        // Save the response data in local storage
+        localStorage.setItem("monitoringLogs", JSON.stringify(data));
 
-            // Populate the table
-            data.forEach((log) => {
-                const row = document.createElement("tr");
+        // Clear any existing table rows
+        tableBody.innerHTML = "";
 
-                // Create table cells for each log property
-                row.innerHTML = `
-                    <td class="clickableML" data-id="${log.monitoringL_id}" 
-                        data-staff-id="${log.staffID}" 
-                        data-corpse-id="${log.corpseID}" 
-                        data-field-id="${log.fieldID}" 
-                        data-log-date="${log.log_Date}" 
-                        data-observation="${log.observation}">
-                        ${log.monitoringL_id}
-                    </td>
-                    <td class="clickableMLD">${log.staffID}</td>
-                    <td class="clickableMLD">${log.corpseID}</td>
-                    <td class="clickableMLD">${log.fieldID}</td>
-                    <td class="clickableMLD">${log.log_Date}</td>
-                    <td class="clickableMLD">${log.observation}</td>
-                `;
+        // Populate the table
+        data.forEach((log) => {
+            const row = document.createElement("tr");
 
-                // Append the row to the table
-                tableBody.appendChild(row);
-            });
+            // Create table cells for each log property
+            row.innerHTML = `
+                <td class="clickableML" data-id="${log.monitoringL_id}" 
+                    data-staff-id="${log.staffID}" 
+                    data-corpse-id="${log.corpseID}" 
+                    data-field-id="${log.fieldID}" 
+                    data-log-date="${log.log_Date}" 
+                    data-observation="${log.observation}">
+                    ${log.monitoringL_id}
+                </td>
+                <td class="clickableMLD">${log.staffID}</td>
+                <td class="clickableMLD">${log.corpseID}</td>
+                <td class="clickableMLD">${log.fieldID}</td>
+                <td class="clickableMLD">${log.log_Date}</td>
+                <td class="clickableMLD">${log.observation}</td>
+            `;
 
-            // Add click event to the table rows
-            tableBody.addEventListener("click", function (event) {
-                if (event.target.classList.contains("clickableML")) {
-                    // Extract data attributes from the clicked cell
-                    const monitoringLId = event.target.getAttribute("data-id");
-                    const staffId = event.target.getAttribute("data-staff-id");
-                    const corpseId = event.target.getAttribute("data-corpse-id");
-                    const fieldId = event.target.getAttribute("data-field-id");
-                    const logDateValue = event.target.getAttribute("data-log-date");
-                    const observationText = event.target.getAttribute("data-observation");
-
-                    // Populate the form fields
-                    idLabel.textContent = monitoringLId;
-                    staffIDSelect.value = staffId;
-                    cropsID.value = corpseId;
-                    fieldID.value = fieldId;
-                    logDate.value = logDateValue;
-                    observation.value = observationText;
-
-                }
-            });
-        })
-        .catch((error) => {
-            console.error("Failed to fetch monitoring logs:", error);
-            alert("Failed to load monitoring logs. Please try again.");
+            // Append the row to the table
+            tableBody.appendChild(row);
         });
+
+        // Add click event to the table rows
+        tableBody.addEventListener("click", function (event) {
+            if (event.target.classList.contains("clickableML")) {
+                // Extract data attributes from the clicked cell
+                const monitoringLId = event.target.getAttribute("data-id");
+                const staffId = event.target.getAttribute("data-staff-id");
+                const corpseId = event.target.getAttribute("data-corpse-id");
+                const fieldId = event.target.getAttribute("data-field-id");
+                const logDateValue = event.target.getAttribute("data-log-date");
+                const observationText = event.target.getAttribute("data-observation");
+
+                // Populate the form fields
+                idLabel.textContent = monitoringLId;
+                staffIDSelect.value = staffId;
+                cropsID.value = corpseId;
+                fieldID.value = fieldId;
+                logDate.value = logDateValue;
+                observation.value = observationText;
+            }
+        });
+    })
+    .catch((error) => {
+        console.error("Failed to fetch monitoring logs:", error);
+        alert("Failed to load monitoring logs. Please try again.");
+    });
 }
 
 populateTableML();
