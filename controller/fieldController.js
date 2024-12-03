@@ -29,6 +29,8 @@ document.getElementById('addBTN')?.addEventListener('click', function () {
     var fieldstaff = document.getElementById('staff')?.value;
     var fieldPic1 = document.getElementById('inputGroupFile04')?.files[0] || null;
     var fieldPic2 = document.getElementById('inputGroupFile03')?.files[0] || null;
+    
+    const token = localStorage.getItem("token");
 
     // Log files to check if they're being captured
     console.log("fieldPic1:", fieldPic1);
@@ -59,6 +61,9 @@ document.getElementById('addBTN')?.addEventListener('click', function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/save",
         type: "POST",
         data: formData,
+        headers: {
+            'Authorization': 'Bearer'+ token
+        },
         contentType: false,
         processData: false,
         success: function () {
@@ -86,6 +91,7 @@ document.getElementById('updateBtn').addEventListener('click', function () {
     var fieldPic1 = document.getElementById('inputGroupFile04').files[0];
     var fieldPic2 = document.getElementById('inputGroupFile03').files[0];
     var label = document.getElementById('lbl1').textContent;
+    const token = localStorage.getItem("token");
 
     console.log(fieldloc, fieldsize, fieldstaff,fieldPic1,fieldPic2,label);
     // Create FormData object to handle files and add non-empty fields
@@ -111,6 +117,9 @@ document.getElementById('updateBtn').addEventListener('click', function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(label),
         type: "PUT",
         data: JSON.stringify(data),
+        headers: {
+            'Authorization': 'Bearer'+ token
+        },
         contentType: "application/json",
         success: function (response) {
             console.log('Success:', response);
@@ -127,6 +136,7 @@ document.getElementById('updateBtn').addEventListener('click', function () {
 
 document.getElementById('deleteBtn').addEventListener('click', function () {
     console.log("Delete button clicked");  // Check if this log appears in the console
+    const token = localStorage.getItem("token");
 
     var fieldID = document.getElementById("lbl1").textContent.trim();
     if (!fieldID) {
@@ -137,6 +147,9 @@ document.getElementById('deleteBtn').addEventListener('click', function () {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(fieldID),
         type: "DELETE",
+        headers: {
+            'Authorization': 'Bearer'+ token
+        },
         contentType: 'application/json',
         success: function (response) {
             console.log("Field Successfully Deleted", response);
@@ -155,7 +168,7 @@ document.getElementById('deleteBtn').addEventListener('click', function () {
 function fetchAndDisplayFields() {
     // Check if data exists in local storage
     const storedFields = JSON.parse(localStorage.getItem("fieldsData"));
-
+    const token = localStorage.getItem("token");
     // If local storage has data, use it to populate the table
     if (storedFields) {
         populateTable(storedFields);
@@ -164,6 +177,9 @@ function fetchAndDisplayFields() {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field",
         type: "GET",
+        headers: {
+            'Authorization': 'Bearer'+ token
+        },
         success: function (response) {
             // Keep only necessary data
             const essentialData = response.map(field => ({
@@ -197,6 +213,8 @@ function populateTable(data) {
     const fieldLabel = document.getElementById("lbl1");
 
     const tableBody = document.querySelector("#fieldsTable tbody");
+
+    
     tableBody.innerHTML = ""; // Clear existing rows
 
     // Append each field data to the table
