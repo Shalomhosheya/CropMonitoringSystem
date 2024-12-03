@@ -36,8 +36,7 @@ document.getElementById('signUPBtn').addEventListener('click', function (event) 
     var email = document.getElementById('emailText').value;
     var password = document.getElementById('passwordtext').value;
 
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiaWF0IjoxNzMzMTI3MDgyLCJleHAiOjE3MzM0ODcwODJ9.UCZrrefdBRYGOVMRqoNUnJHP2-UBMqNZ7_XjkG2IxcU";
-
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNTc1NjgwfQ.BSRyZyS6P35jHS85aqmqz51ZuoTLhiQ0nQ2UQBPSb2Y"
     // Create FormData object
     const formData = new FormData();
     formData.append('firstName', firstname);

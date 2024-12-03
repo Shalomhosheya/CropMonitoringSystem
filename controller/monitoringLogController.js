@@ -13,10 +13,15 @@ function showPreview(event, previewId) {
 document.addEventListener('DOMContentLoaded', function () {
     const staffIDSelect = document.getElementById('staffID_Ml'); // Get the dropdown element
 
+    const token = localStorage.getItem('token'); // Get the token from localStorage
+
     // Send GET request using jQuery's $.ajax
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff", // API endpoint
         type: "GET", // HTTP method
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
 
@@ -36,11 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.addEventListener('DOMContentLoaded', function () {
     const fieldID = document.getElementById('fieldID_Ml'); // Get the field dropdown element
+    const token = localStorage.getItem('token'); // Get the token from localStorage
 
     // Fetch field data
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field", // API endpoint
         type: "GET", // HTTP method
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         success: function (response) {
             console.log("Field data fetched successfully:", response);
 
@@ -66,6 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse", // API endpoint
         type: "GET", // HTTP method
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         success: function (response) {
             console.log("Crop data fetched successfully:", response);
 
@@ -195,7 +207,9 @@ document.getElementById('addBtn_Ml').addEventListener('click', function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/vi/monitoringLog/save",
         type: "POST",
         data: formData,
-
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         processData: false, // Don't process the data (important for FormData)
         contentType: false, // Let the browser set the content type, including the boundary
         success: function (response) {
