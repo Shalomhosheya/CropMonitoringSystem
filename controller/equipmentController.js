@@ -37,8 +37,7 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
     const status = document.getElementById('status_E').value;
 
     // Set the Bearer token
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJVU0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzQ1MEBnbWFpbC5jb20iLCJleHAiOjE3MzMxNTQ5NTl9.VfiY-ntr-a-iTvzFbNuLe4CjXKrNSUQ--b1zxCU1QSc";
-
+        const token = localStorage.getItem("token");
     console.log("Adding Equipment:", { equipName, type, status });
 
     const formdata = new FormData();
@@ -76,7 +75,7 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
 
 function fetchdata() {
     const storedData = localStorage.getItem("equipmentData");
-
+    const token = localStorage.getItem("token");
     if (storedData) {
         try {
             const parsedData = JSON.parse(storedData);
@@ -89,7 +88,11 @@ function fetchdata() {
             console.error("Failed to parse stored data:", error);
         }
     }
-    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment")
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment",{
+        headers: {
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        }
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -157,6 +160,8 @@ document.getElementById("updateBtn_E").addEventListener('click', function () {
     const equipName = document.getElementById('equip_E').value;
     const type = document.getElementById('type_E').value;
     const status = document.getElementById('status_E').value;
+    
+    const token = localStorage.getItem("token");
 
     // Create a JSON object with the necessary fields
     const data = {
@@ -171,7 +176,10 @@ document.getElementById("updateBtn_E").addEventListener('click', function () {
         url: `http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment/${encodeURIComponent(id)}`,
         type: "PUT",
         contentType: "application/json",  // Set the content type to JSON
-        data: JSON.stringify(data),  // Convert the JavaScript object to a JSON string
+        data: JSON.stringify(data), 
+        headers:{
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        }, // Convert the JavaScript object to a JSON string
         success: function (response) {
             alert("Update successful");
             console.log("Update response:", response);
@@ -187,7 +195,7 @@ document.getElementById("updateBtn_E").addEventListener('click', function () {
 
 document.getElementById('deleteBtn_E').addEventListener('click', function () {
     const id = document.getElementById('lbl4').textContent;
-
+    const token = localStorage.getItem("token");
     if (!id) {
         alert("No ID specified for deletion.");
         return;
@@ -201,6 +209,9 @@ document.getElementById('deleteBtn_E').addEventListener('click', function () {
     $.ajax({
         url: `http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment/${encodeURIComponent(id)}`,
         type: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}` // Include Bearer token
+        },  
         success: function (data) {
             alert("Deletion successful");
             console.log("Delete response:", data);

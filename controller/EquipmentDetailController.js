@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded',function (){
     const staffIDdropDown = document.getElementById('staffID_ED')
+    const token = localStorage.getItem("token");
 
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff", // API endpoint
         type: "GET", // HTTP method
+        headers: {
+            'Authorization': 'Bearer'+ token
+        }, // Add token to request headers
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
 
@@ -24,9 +28,13 @@ document.addEventListener('DOMContentLoaded',function (){
 
 document.addEventListener('DOMContentLoaded',function (){
     const fieldIDropDown = document.getElementById('fieldID_ED');
+    const token = localStorage.getItem("token");
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field", // API endpoint
         type: "GET", // HTTP method
+        headers: {
+            'Authorization': 'Bearer'+ token
+        }, // Add token to request headers
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
 
@@ -47,9 +55,13 @@ document.addEventListener('DOMContentLoaded',function (){
 
 document.addEventListener('DOMContentLoaded',function (){
     const equipIDDropdown = document.getElementById('equipID_ED')
+    const token = localStorage.getItem("token");
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment", // API endpoint
-        type: "GET", // HTTP method
+        type: "GET",
+        headers:{
+            'Authorization': 'Bearer'+ token
+        }, // HTTP method
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
 
@@ -76,7 +88,8 @@ function loadDatatoTable() {
     const idLabel = document.getElementById('lbl6');
 
     const tableBody = document.querySelector("#vehicleTable tbody"); // Get the table body element
-
+    
+    const token = localStorage.getItem("token");
     // Clear existing table rows
     tableBody.innerHTML = "";
 
@@ -84,6 +97,9 @@ function loadDatatoTable() {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details", // API endpoint
         type: "GET", // HTTP method
+        headers: {
+            'Authorization': 'Bearer'+ token
+        }, // Add token to request headers
         success: function (response) {
             console.log("Equipment detail data fetched successfully:", response);
 
@@ -130,7 +146,7 @@ document.getElementById("addBtn_ED").addEventListener("click", function () {
     const equipID = document.getElementById("equipID_ED").value;
     const date = document.getElementById("logDate_ED").value;
     const reason = document.getElementById("reason_Dis").value;
-
+    const token = localStorage.getItem("token");
     var formdata = new FormData();
     formdata.append("staff_id", staffID);
     formdata.append("fieldID", fieldID);
@@ -143,6 +159,10 @@ document.getElementById("addBtn_ED").addEventListener("click", function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details/save", // API endpoint
         type: "POST", // HTTP method
         data: formdata,
+        headers: {
+            'Authorization': 'Bearer'+ token,
+            
+        },
         contentType: false,
         processData: false,
         success: function (response) {
@@ -179,10 +199,13 @@ document.getElementById('updateBtn_ED').addEventListener('click',function (){
 })
 document.getElementById('deleteBtn_ED').addEventListener('click',function (){
     const id = document.getElementById('lbl6').textContent;
-
+    const token = localStorage.getItem("token");
     $.ajax({
         url:`http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details/${id}`,
         type:"DELETE",
+        headers: {
+            'Authorization': 'Bearer'+ token
+        },
         success: function (response){
             console.log("Record deleted successfully:", response);
             alert(`Record with ID: ${id} has been deleted.`);
