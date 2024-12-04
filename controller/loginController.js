@@ -1,11 +1,11 @@
 
 
-document.getElementById("signInBTN").addEventListener('click',function (){
-    alert("done");
-    event.preventDefault()
-    window.location.href="../pages/dashBoard.html"//only the html opens not the styles
+// document.getElementById("signInBTN").addEventListener('click',function (){
+//     alert("done");
+//     event.preventDefault()
+//     window.location.href="../pages/dashBoard.html"//only the html opens not the styles
 
-})
+// })
 
 document.addEventListener('DOMContentLoaded', function () {
     const array = ["MANAGER", "ADMINISTRATIVE", "SCIENTIST", "USER"];
@@ -67,26 +67,33 @@ document.getElementById('signUPBtn').addEventListener('click', function (event) 
 document.getElementById('signInBTN').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent form submission
 
-    let email = document.getElementById('emailText2').value;
+    const email = document.getElementById('emailText2').value;
     const password = document.getElementById('passwordtext2').value;
+
+    console.log(email, password);
 
     // Sign-In Request
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/auth/signin",
         method: 'POST',
-        data: {
-            email: email, 
+        contentType: 'application/json', // Set content type to JSON
+        data: JSON.stringify({
+            email: email,
             password: password
-        },
+        }), // Send email and password as JSON
         success: function (response) {
             console.log('Logged in successfully:', response);
             alert('Logged in successfully');
+            
+            // Redirect to dashboard
+            event.preventDefault();
+            window.location.href = "../pages/dashBoard.html"; // Only the HTML opens, not the styles
 
             // Save the new token in localStorage
             localStorage.setItem('token', response.token);
-            
+
             // Fetch User Details using the new token and email
-            fetchUserDetails(email); // Pass the email to the fetchUserDetails function
+            fetchUserDetails(response.email); // Send email from the sign-in response
         },
         error: function (xhr, status, error) {
             console.error('Error logging in:', xhr.responseText || error);
@@ -99,7 +106,7 @@ document.getElementById('signInBTN').addEventListener('click', function (event) 
 function fetchUserDetails(email) {
     const token = localStorage.getItem('token'); // Retrieve token from localStorage
     console.log(email);
-    
+
     if (!token) {
         console.error('No token found in localStorage');
         alert('Please log in to continue.');

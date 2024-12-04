@@ -6,6 +6,7 @@ let isOpen = false;
 
 // Retrieve the user role from localStorage
 var userRole = localStorage.getItem('userRole');
+console.log(userRole);
 
 // Get the <h2> element by its ID
 let userRoleText = document.getElementById('accountname');
