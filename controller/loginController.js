@@ -93,8 +93,7 @@ document.getElementById('signInBTN').addEventListener('click', function (event) 
             }
             // Redirect to dashboard
             event.preventDefault();
-            window.location.href = "../pages/dashBoard.html"; // Only the HTML opens, not the styles
-
+           
             // Save the new token in localStorage
             localStorage.setItem('token', response.token);
             
@@ -143,6 +142,8 @@ function fetchUserDetails(email) {
             // Save user role in localStorage
             localStorage.setItem('userRole', user.role);
             alert(`Welcome ${user.firstName}! Your role is: ${user.role}`);
+            window.location.href = "../pages/dashBoard.html"; // Only the HTML opens, not the styles
+
         } else {
             console.warn('No user found with the provided email.');
             alert('Failed to identify the user role.');

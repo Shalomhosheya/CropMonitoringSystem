@@ -355,3 +355,9 @@ new Chart(pieChartCtx, {
 const canvas = document.getElementById('overviewPieChart');
 canvas.width = 250;
 canvas.height = 250;
+
+function role(){
+    if (userRoleText.textContent == "USER") {
+      document.getElementsByClassName("button10").style.display = "none";
+    }
+}
