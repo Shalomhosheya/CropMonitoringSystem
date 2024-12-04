@@ -211,3 +211,21 @@ document.getElementById('deleteBtn_C').addEventListener('click',function (){
 document.getElementById('resetBtn_C').addEventListener('click',function (){
     reset();
 })
+
+
+function check() {
+    let check = document.getElementById("accountname") ? document.getElementById("accountname").textContent : '';
+    if (check.trim() === "USER") { // Use trim to remove any leading/trailing spaces
+        let addBtnV = document.getElementById("addBtn_C");
+        let resetBtnV = document.getElementById("resetBtn_C");
+        let deleteBtnVvv = document.getElementById("deleteBtn_C");
+        let updateBtnV = document.getElementById("updateBtn_C");
+
+        if (addBtnV) addBtnV.style.display = "none";  // Hide the add button if it exists
+        if (resetBtnV) resetBtnV.style.display = "none";  // Hide the reset button if it exists
+        if (deleteBtnVvv) deleteBtnVvv.style.display = "none";  // Hide the delete button if it exists
+        if (updateBtnV) updateBtnV.style.display = "none";  // Hide the update button if it exists
+    }
+}
+
+check();

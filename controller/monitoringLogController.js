@@ -290,3 +290,21 @@ function resettext(){
 document.getElementById('updateBtn_Ml').addEventListener('click',function (){
     console.log("update Button clicked");
 })
+
+
+function check() {
+    let check = document.getElementById("accountname") ? document.getElementById("accountname").textContent : '';
+    if (check.trim() === "USER") { // Use trim to remove any leading/trailing spaces
+        let addBtnV = document.getElementById("addBtn_Ml");
+        let resetBtnV = document.getElementById("resetBtn_Ml");
+        let deleteBtnVvv = document.getElementById("deleteBtn_Ml");
+        let updateBtnV = document.getElementById("updateBtn_Ml");
+
+        if (addBtnV) addBtnV.style.display = "none";  // Hide the add button if it exists
+        if (resetBtnV) resetBtnV.style.display = "none";  // Hide the reset button if it exists
+        if (deleteBtnVvv) deleteBtnVvv.style.display = "none";  // Hide the delete button if it exists
+        if (updateBtnV) updateBtnV.style.display = "none";  // Hide the update button if it exists
+    }
+}
+
+check();

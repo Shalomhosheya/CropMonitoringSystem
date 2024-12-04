@@ -16,6 +16,12 @@
 	border-radius: 10px;
 	box-shadow: 5px 20px 50px #000;
 }
+#updateBtnV{
+	display: ruby;
+}
+#addBTN{
+	display: block;
+}
 .stylecard {
 	background: linear-gradient(135deg, #27ae60, #2ecc71); /* Gradient with shades of green */
 	border: 1px solid #145a32; /* Dark green border */
@@ -119,6 +125,7 @@
 	border-radius: 5px;
 	transition: .2s ease-in;
 	cursor: pointer;
+	
 }
 button:hover{
 	background: green;

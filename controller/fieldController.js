@@ -8,6 +8,24 @@ function showPreview(event, previewId) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
+
+
+function check() {
+    let check = document.getElementById("accountname") ? document.getElementById("accountname").textContent : '';
+    if (check.trim() === "USER") { // Use trim to remove any leading/trailing spaces
+        let addBtnV = document.getElementById("addBTN");
+        let resetBtnV = document.getElementById("resetBTN");
+        let deleteBtnVvv = document.getElementById("deleteBtn");
+        let updateBtnV = document.getElementById("updateBtn");
+
+        if (addBtnV) addBtnV.style.display = "none";  // Hide the add button if it exists
+        if (resetBtnV) resetBtnV.style.display = "none";  // Hide the reset button if it exists
+        if (deleteBtnVvv) deleteBtnVvv.style.display = "none";  // Hide the delete button if it exists
+        if (updateBtnV) updateBtnV.style.display = "none";  // Hide the update button if it exists
+    }
+}
+
+check();
 // Event listeners for the file inputs
 document.getElementById('inputGroupFile04')?.addEventListener('change', function(event) {
     showPreview(event, 'previewImage1');
@@ -262,7 +280,5 @@ document.getElementById('resetBTN').addEventListener('click', function () {
 
 // Call this function initially to load existing data on page load
 fetchAndDisplayFields();
-
-
 
 

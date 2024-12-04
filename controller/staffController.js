@@ -129,7 +129,7 @@ function fetchDataAndDisplay() {
                 staffID: staff.staffID,
                 firstName: staff.firstName,
                 lastName: staff.lastName,
-                designation: staff.designitation,
+                designation: staff.designation,
                 gender: staff.gender,
                 address1: staff.address_1,
                 address2: staff.address_2,
@@ -384,3 +384,19 @@ document.addEventListener("DOMContentLoaded", function () {
         resettext();
     });
 });
+function check() {
+    let check = document.getElementById("accountname") ? document.getElementById("accountname").textContent : '';
+    if (check.trim() === "USER") { // Use trim to remove any leading/trailing spaces
+        let addBtnV = document.getElementById("addBtn");
+        let resetBtnV = document.getElementById("resetBtn2");
+        let deleteBtnVvv = document.getElementById("deleteBtn2");
+        let updateBtnV = document.getElementById("updateBtn");
+
+        if (addBtnV) addBtnV.style.display = "none";  // Hide the add button if it exists
+        if (resetBtnV) resetBtnV.style.display = "none";  // Hide the reset button if it exists
+        if (deleteBtnVvv) deleteBtnVvv.style.display = "none";  // Hide the delete button if it exists
+        if (updateBtnV) updateBtnV.style.display = "none";  // Hide the update button if it exists
+    }
+}
+
+check();

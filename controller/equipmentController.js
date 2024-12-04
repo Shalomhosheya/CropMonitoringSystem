@@ -225,3 +225,19 @@ document.getElementById('deleteBtn_E').addEventListener('click', function () {
         }
     });
 });
+function check() {
+    let check = document.getElementById("accountname") ? document.getElementById("accountname").textContent : '';
+    if (check.trim() === "USER") { // Use trim to remove any leading/trailing spaces
+        let addBtnV = document.getElementById("addBtn_E");
+        let resetBtnV = document.getElementById("resetBtn_E");
+        let deleteBtnVvv = document.getElementById("deleteBtn_E");
+        let updateBtnV = document.getElementById("updateBtn_E");
+
+        if (addBtnV) addBtnV.style.display = "none";  // Hide the add button if it exists
+        if (resetBtnV) resetBtnV.style.display = "none";  // Hide the reset button if it exists
+        if (deleteBtnVvv) deleteBtnVvv.style.display = "none";  // Hide the delete button if it exists
+        if (updateBtnV) updateBtnV.style.display = "none";  // Hide the update button if it exists
+    }
+}
+
+check();

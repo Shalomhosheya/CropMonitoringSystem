@@ -154,4 +154,3 @@ function fetchUserDetails(email) {
         alert('Failed to fetch user details. Please try again later.');
     });
 }
-
