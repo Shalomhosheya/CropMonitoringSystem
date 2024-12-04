@@ -84,14 +84,20 @@ document.getElementById('signInBTN').addEventListener('click', function (event) 
         success: function (response) {
             console.log('Logged in successfully:', response);
             alert('Logged in successfully');
-            
+           
+            if (response.email) {
+                console.log('User email:', response.email);
+                fetchUserDetails(response.email); // Send email from the sign-in response
+            } else {
+                console.warn('Email not found in response:', response);
+            }
             // Redirect to dashboard
             event.preventDefault();
             window.location.href = "../pages/dashBoard.html"; // Only the HTML opens, not the styles
 
             // Save the new token in localStorage
             localStorage.setItem('token', response.token);
-
+            
             // Fetch User Details using the new token and email
             fetchUserDetails(response.email); // Send email from the sign-in response
         },
@@ -105,7 +111,6 @@ document.getElementById('signInBTN').addEventListener('click', function (event) 
 // Function to fetch user details and filter based on email
 function fetchUserDetails(email) {
     const token = localStorage.getItem('token'); // Retrieve token from localStorage
-    console.log(email);
 
     if (!token) {
         console.error('No token found in localStorage');
