@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff",
         type: "GET",
-        header: {
-            Authorization: `Bearer ${token}`
+        headers: { // Correct key for headers
+            Authorization: `Bearer ${token}` // Include the token in the Authorization header
         },
         success: function (response) {
             // Extracting essential data (e.g., staffID and staffName) from the response
             const essentialData = response.map(staff => ({
                 staffID: staff.staffID,
                 firstName: staff.firstName,
-                lastName:staff.lastName// Adjust this field based on your API response
+                lastName: staff.lastName // Adjust this field based on your API response
             }));
 
             localStorage.setItem("staffData", JSON.stringify(essentialData));
@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
 document.addEventListener('DOMContentLoaded',function (){
     const storedVehicle = JSON.parse(localStorage.getItem("vehiclesData"));
     const token = localStorage.getItem("token");

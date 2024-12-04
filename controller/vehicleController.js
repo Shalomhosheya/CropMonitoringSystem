@@ -156,7 +156,7 @@ document.getElementById("deleteBtnVvv").addEventListener('click',function (){
       type:"DELETE",
       data: "application/json",
       header:{
-        'Authorization': 'Bearer'+ token
+         Authorization: `Bearer ${token}`
       },
       success: function (response) {
           console.log("vehicle Successfully Deleted", response);
@@ -195,7 +195,7 @@ document.getElementById("updateBtnV").addEventListener('click',function (){
         type:"PUT",
         data: formdata,
         header: {
-        'Authorization': 'Bearer'+ token
+         Authorization: `Bearer ${token}`
         },
         contentType: false,
         processData: false,

@@ -29,8 +29,9 @@ document.getElementById('addBTN')?.addEventListener('click', function () {
     var fieldstaff = document.getElementById('staff')?.value;
     var fieldPic1 = document.getElementById('inputGroupFile04')?.files[0] || null;
     var fieldPic2 = document.getElementById('inputGroupFile03')?.files[0] || null;
-    
+
     const token = localStorage.getItem("token");
+    console.log(token);
 
     // Log files to check if they're being captured
     console.log("fieldPic1:", fieldPic1);
@@ -62,7 +63,7 @@ document.getElementById('addBTN')?.addEventListener('click', function () {
         type: "POST",
         data: formData,
         headers: {
-            'Authorization': 'Bearer'+ token
+            Authorization: `Bearer ${token}` // Corrected with proper spacing
         },
         contentType: false,
         processData: false,
@@ -73,12 +74,11 @@ document.getElementById('addBTN')?.addEventListener('click', function () {
             fetchAndDisplayFields();
         },
         error: function (xhr, status, error) {
-            console.log("Error details:", xhr, status, error);
+            console.error("Error details:", xhr, status, error);
             alert("Field creation failed");
         }
     });
 });
-
 
 document.getElementById('updateBtn').addEventListener('click', function () {
     console.log("updateBtn clicked");
@@ -118,7 +118,7 @@ document.getElementById('updateBtn').addEventListener('click', function () {
         type: "PUT",
         data: JSON.stringify(data),
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         },
         contentType: "application/json",
         success: function (response) {
@@ -148,7 +148,7 @@ document.getElementById('deleteBtn').addEventListener('click', function () {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field/" + encodeURIComponent(fieldID),
         type: "DELETE",
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         },
         contentType: 'application/json',
         success: function (response) {
@@ -178,7 +178,7 @@ function fetchAndDisplayFields() {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field",
         type: "GET",
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         },
         success: function (response) {
             // Keep only necessary data

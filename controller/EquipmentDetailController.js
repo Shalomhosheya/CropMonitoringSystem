@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded',function (){
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/staff", // API endpoint
         type: "GET", // HTTP method
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         }, // Add token to request headers
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded',function (){
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/field", // API endpoint
         type: "GET", // HTTP method
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         }, // Add token to request headers
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded',function (){
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment", // API endpoint
         type: "GET",
         headers:{
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         }, // HTTP method
         success: function (response) {
             console.log("Staff data fetched successfully:", response);
@@ -98,7 +98,7 @@ function loadDatatoTable() {
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details", // API endpoint
         type: "GET", // HTTP method
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         }, // Add token to request headers
         success: function (response) {
             console.log("Equipment detail data fetched successfully:", response);
@@ -160,7 +160,7 @@ document.getElementById("addBtn_ED").addEventListener("click", function () {
         type: "POST", // HTTP method
         data: formdata,
         headers: {
-            'Authorization': 'Bearer'+ token,
+            Authorization: `Bearer ${token}`
             
         },
         contentType: false,
@@ -204,7 +204,7 @@ document.getElementById('deleteBtn_ED').addEventListener('click',function (){
         url:`http://localhost:5050/backendCropMonitoringSystem/api/v1/equip_details/${id}`,
         type:"DELETE",
         headers: {
-            'Authorization': 'Bearer'+ token
+             Authorization: `Bearer ${token}`
         },
         success: function (response){
             console.log("Record deleted successfully:", response);

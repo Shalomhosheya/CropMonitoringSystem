@@ -60,8 +60,8 @@ function populateTablestaff(staffData) {
             gender.value = field.gender;
             join_Date.value = field.joinDate;
             dob.value = field.DOB;
-            address1.value = field.address1;
-            address2.value = field.address2;
+            address1.value = field.address_1;
+            address2.value = field.address_2;
             address3.value = field.address3;
             address4.value = field.address4;
             address5.value = field.address5;
@@ -130,7 +130,7 @@ function fetchDataAndDisplay() {
                 firstName: staff.firstName,
                 lastName: staff.lastName,
                 designation: staff.designitation,
-                gender1: staff.gender,
+                gender: staff.gender,
                 address1: staff.address_1,
                 address2: staff.address_2,
                 address3: staff.address_3,

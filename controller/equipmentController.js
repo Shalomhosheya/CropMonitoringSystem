@@ -53,7 +53,7 @@ document.getElementById("addBtn_E").addEventListener("click", function () {
         contentType: false,
         processData: false,
         headers: {
-            "Authorization": `Bearer ${token}` // Include Bearer token
+            Authorization: `Bearer ${token}` // Include Bearer token
         },
         success: function (response) {
             alert("Added equipment successfully");
@@ -90,7 +90,7 @@ function fetchdata() {
     }
     fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment",{
         headers: {
-            "Authorization": `Bearer ${token}` // Include Bearer token
+            Authorization: `Bearer ${token}` // Include Bearer token
         }
     })
         .then(response => {
@@ -178,7 +178,7 @@ document.getElementById("updateBtn_E").addEventListener('click', function () {
         contentType: "application/json",  // Set the content type to JSON
         data: JSON.stringify(data), 
         headers:{
-            "Authorization": `Bearer ${token}` // Include Bearer token
+            Authorization: `Bearer ${token}` // Include Bearer token
         }, // Convert the JavaScript object to a JSON string
         success: function (response) {
             alert("Update successful");
@@ -210,7 +210,7 @@ document.getElementById('deleteBtn_E').addEventListener('click', function () {
         url: `http://localhost:5050/backendCropMonitoringSystem/api/v1/equipment/${encodeURIComponent(id)}`,
         type: "DELETE",
         headers: {
-            "Authorization": `Bearer ${token}` // Include Bearer token
+            Authorization: `Bearer ${token}` // Include Bearer token
         },  
         success: function (data) {
             alert("Deletion successful");
