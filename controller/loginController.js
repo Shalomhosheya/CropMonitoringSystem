@@ -1,4 +1,5 @@
 
+
 document.getElementById("signInBTN").addEventListener('click',function (){
     alert("done");
     event.preventDefault()
@@ -24,9 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
  
 
-
-
-
 document.getElementById('signUPBtn').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -36,8 +34,8 @@ document.getElementById('signUPBtn').addEventListener('click', function (event) 
     var email = document.getElementById('emailText').value;
     var password = document.getElementById('passwordtext').value;
 
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVJNQU5BR0VSIn1dLCJzdWIiOiJzaGFsb21ob3NoZXlhMzdAZ21haWwuY29tIiwiZXhwIjoxNzMzNTc1NjgwfQ.BSRyZyS6P35jHS85aqmqz51ZuoTLhiQ0nQ2UQBPSb2Y"
-    // Create FormData object
+    const token = localStorage.getItem('token');
+     // Create FormData object
     const formData = new FormData();
     formData.append('firstName', firstname);
     formData.append('lastName', lastname);
@@ -66,34 +64,81 @@ document.getElementById('signUPBtn').addEventListener('click', function (event) 
         }
     });
 });
-
-document.getElementById('signInBTN').addEventListener('click', function () {
+document.getElementById('signInBTN').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent form submission
 
-    var email = document.getElementById('emailText2').value;
-    var password = document.getElementById('passwordtext2').value;
+    let email = document.getElementById('emailText2').value;
+    const password = document.getElementById('passwordtext2').value;
 
-    const token = localStorage.getItem('token'); // Get the token from localStorage
-
+    // Sign-In Request
     $.ajax({
         url: "http://localhost:5050/backendCropMonitoringSystem/api/v1/auth/signin",
         method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
         data: {
-            email: email,
+            email: email, 
             password: password
         },
         success: function (response) {
             console.log('Logged in successfully:', response);
             alert('Logged in successfully');
-            localStorage.setItem('token', response.token); // Save the new token
-            window.location.href = "../pages/dashBoard.html"; // Navigate to the dashboard
+
+            // Save the new token in localStorage
+            localStorage.setItem('token', response.token);
+            
+            // Fetch User Details using the new token and email
+            fetchUserDetails(email); // Pass the email to the fetchUserDetails function
         },
         error: function (xhr, status, error) {
-            console.error('Error logging in:', error);
-            alert('Error logging in');
+            console.error('Error logging in:', xhr.responseText || error);
+            alert('Login failed. Please check your credentials and try again.');
         }
     });
 });
+
+// Function to fetch user details and filter based on email
+function fetchUserDetails(email) {
+    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    console.log(email);
+    
+    if (!token) {
+        console.error('No token found in localStorage');
+        alert('Please log in to continue.');
+        return;
+    }
+
+    fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/users", {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            // Handle non-successful HTTP statuses
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse JSON from the response
+    })
+    .then(data => {
+        console.log('User details fetched:', data);
+
+        // Filter the user by email
+        const user = data.find(user => user.email === email);
+
+        if (user) {
+            console.log(`User role for ${email}: ${user.role}`);
+            // Save user role in localStorage
+            localStorage.setItem('userRole', user.role);
+            alert(`Welcome ${user.firstName}! Your role is: ${user.role}`);
+        } else {
+            console.warn('No user found with the provided email.');
+            alert('Failed to identify the user role.');
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching user details:', error.message);
+        alert('Failed to fetch user details. Please try again later.');
+    });
+}
+

@@ -4,6 +4,23 @@ const sidebar = document.getElementById('sidebar');
 // Initially set the hamburger icon's position
 let isOpen = false;
 
+// Retrieve the user role from localStorage
+var userRole = localStorage.getItem('userRole');
+
+// Get the <h2> element by its ID
+let userRoleText = document.getElementById('accountname');
+
+// Check if the user role exists and the element is found
+if (userRole && userRoleText) {
+    // Set the inner text of the <h2> element to display the user role
+    userRoleText.textContent = ` ${userRole}`;
+} else if (!userRole) {
+    console.warn('User role not found in localStorage.');
+    userRoleText.textContent = "Role: Unknown"; // Optionally set a default message
+} else {
+    console.error('Element with ID "accountname" not found.');
+}
+
 hamburger.addEventListener('click', () => {
     // Toggle sidebar open/close
     sidebar.classList.toggle('open');
@@ -96,12 +113,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Calculate the count of "available" reservations
             const reservationCount = availableReservations.length;
+               localStorage.setItem("availableReservations", reservationCount)
 
             // Log the count to verify
             console.log(`Available reservation count: ${reservationCount}`);
 
             // Select the element where the count will be displayed
-            const res = document.getElementById("reservation");
+            const res = document.getElementById("reservation1");
 
             if (res) {
                 // Update the count in the element
@@ -234,7 +252,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Define the canvas context
     const pieChartCtx = document.getElementById('overviewPieChart').getContext('2d');
 
-    const token = localStorage.getItem('token'); // Get the token from localStorage
+    const token = localStorage.getItem('token'); 
+    const reservation = localStorage.getItem('availableReservations'); 
 
     // Function to fetch data and render the pie chart
     const fetchDataAndRenderPieChart = async () => {
@@ -244,11 +263,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // Fetch data from your API endpoints with headers
-            const [staff, reservation, crops, equipment, vehicles] = await Promise.all([
+            const [staff,crops, equipment, vehicles] = await Promise.all([
                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/staff", {
-                    headers: { Authorization: `Bearer ${token}` }
-                }).then(res => res.json()),
-                fetch("http://localhost:5050/backendCropMonitoringSystem/api/v1/reservstion", {
                     headers: { Authorization: `Bearer ${token}` }
                 }).then(res => res.json()),
                 fetch("http://localhost:5050/backendCropMonitoringSystem/api/vi/corpse", {
@@ -264,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Update numbers in the DOM
             document.getElementById('member').textContent = staff.length;
-            document.getElementById('reservation').textContent = reservation.length;
+            // document.getElementById('reservation1').textContent = reservation;
             document.getElementById('crops').textContent = crops.length;
             document.getElementById('equip').textContent = equipment.length;
             document.getElementById('vehicle').textContent = vehicles.length;
@@ -273,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const chartData = {
                 labels: ['Total Staff', 'Active Reservation', 'Total Crops', 'Equipment', 'Vehicles'],
                 datasets: [{
-                    data: [staff.length, reservation.length, crops.length, equipment.length, vehicles.length],
+                    data: [staff.length,reservation, crops.length,equipment.length, vehicles.length],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.6)', // Red
                         'rgba(54, 162, 235, 0.6)', // Blue
