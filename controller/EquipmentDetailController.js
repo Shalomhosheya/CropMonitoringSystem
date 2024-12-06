@@ -147,12 +147,15 @@ document.getElementById("addBtn_ED").addEventListener("click", function () {
     const date = document.getElementById("logDate_ED").value;
     const reason = document.getElementById("reason_Dis").value;
     const token = localStorage.getItem("token");
+
+    console.log(token);
+    
     var formdata = new FormData();
     formdata.append("staff_id", staffID);
     formdata.append("fieldID", fieldID);
     formdata.append("equip_id", equipID);
     formdata.append("date", date);
-    formdata.append("reson", reason); // Corrected the key to 'reason'
+    formdata.append("reson", reason); 
 
     // POST request to save Equipment Detail
     $.ajax({
@@ -160,8 +163,7 @@ document.getElementById("addBtn_ED").addEventListener("click", function () {
         type: "POST", // HTTP method
         data: formdata,
         headers: {
-            Authorization: `Bearer ${token}`
-            
+            Authorization: `Bearer ${token}` // Corrected with proper spacing
         },
         contentType: false,
         processData: false,
