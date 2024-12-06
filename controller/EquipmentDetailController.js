@@ -155,7 +155,7 @@ document.getElementById("addBtn_ED").addEventListener("click", function () {
     formdata.append("fieldID", fieldID);
     formdata.append("equip_id", equipID);
     formdata.append("date", date);
-    formdata.append("reson", reason); 
+    formdata.append("resone", reason); 
 
     // POST request to save Equipment Detail
     $.ajax({
